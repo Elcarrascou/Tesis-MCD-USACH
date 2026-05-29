@@ -1,65 +1,19 @@
-type NodeStyle = 'teal' | 'orange' | 'gray'
-
-const nodeStyles: Record<NodeStyle, React.CSSProperties> = {
-  teal:   { background: 'rgba(0,154,147,0.1)',  border: '1px solid rgba(0,154,147,0.35)', color: '#007a74', fontWeight: 600 },
-  orange: { background: 'rgba(227,114,0,0.08)', border: '1px solid rgba(227,114,0,0.35)', color: '#b35900', fontWeight: 600 },
-  gray:   { background: '#f5fffe',              border: '1px solid rgba(0,154,147,0.2)',  color: '#333333', fontWeight: 600 },
-}
-
-const Node = ({ label, style }: { label: string; style: NodeStyle }) => (
-  <div className="flex items-center gap-2 px-3.5 py-2 rounded-[10px] text-[13px] whitespace-nowrap cursor-default"
-    style={nodeStyles[style]}>
-    {label}
-  </div>
-)
-
-const layers = [
-  {
-    label: '📡 Capa de datos',
-    nodes: [
-      { label: '📊 Alpaca API — Datos en tiempo real + sandbox', style: 'teal' as NodeStyle },
-      { label: '📉 Yahoo Finance — Datos históricos para ML',    style: 'orange' as NodeStyle },
-    ],
-  },
-  {
-    label: '⚙️ Capa de Machine Learning',
-    nodes: [
-      { label: '🔮 LSTM — Precio futuro',         style: 'teal' as NodeStyle },
-      { label: '⚡ XGBoost — Señal compra/venta',  style: 'teal' as NodeStyle },
-      { label: '📅 Prophet — Tendencia',           style: 'teal' as NodeStyle },
-      { label: '🛡️ Random Forest — Riesgo',        style: 'teal' as NodeStyle },
-    ],
-  },
-  {
-    label: '🧠 Capa de Inteligencia Artificial',
-    nodes: [
-      { label: '🤖 OpenClaw — Agente IA en Hostinger', style: 'orange' as NodeStyle },
-      { label: '⚡ Claude / OpenAI — Razonamiento',    style: 'orange' as NodeStyle },
-      { label: '🟢 Ollama / Qwen — Operación diaria',  style: 'orange' as NodeStyle },
-      { label: '🔗 FastAPI — Backend en Railway',       style: 'orange' as NodeStyle },
-    ],
-  },
-  {
-    label: '🗄️ Capa de persistencia',
-    nodes: [
-      { label: '🐘 Supabase (PostgreSQL) — portfolio · movements · ai_decisions · ml_predictions · performance', style: 'gray' as NodeStyle },
-    ],
-  },
-  {
-    label: '📲 Capa de interacción',
-    nodes: [
-      { label: '💬 Telegram / WhatsApp',            style: 'teal' as NodeStyle },
-      { label: '🌐 React + Tailwind CSS en Vercel', style: 'orange' as NodeStyle },
-    ],
-  },
-]
+import diagramaArquitectura from '../../assets/diagrama-arquitectura.png'
 
 const flowSteps = [
-  { icon: '✏️', label: 'Claude Code',       bg: 'rgba(0,154,147,0.1)',  border: 'rgba(0,154,147,0.35)' },
-  { icon: '🐙', label: 'GitHub',             bg: '#f5fffe',              border: 'rgba(0,154,147,0.2)'  },
-  { icon: '▲',  label: 'Vercel Frontend',   bg: 'rgba(227,114,0,0.08)', border: 'rgba(227,114,0,0.35)' },
-  { icon: '🚄', label: 'Railway Backend',   bg: 'rgba(51,51,51,0.06)',  border: 'rgba(51,51,51,0.2)'   },
-  { icon: '🌐', label: 'App producción',    bg: 'rgba(0,154,147,0.12)', border: 'rgba(0,154,147,0.4)'  },
+  { icon: '✏️', label: 'Claude Code',      bg: 'rgba(0,154,147,0.1)',  border: 'rgba(0,154,147,0.35)' },
+  { icon: '🐙', label: 'GitHub',            bg: '#f5fffe',              border: 'rgba(0,154,147,0.2)'  },
+  { icon: '▲',  label: 'Vercel Frontend',  bg: 'rgba(227,114,0,0.08)', border: 'rgba(227,114,0,0.35)' },
+  { icon: '🚄', label: 'Railway Backend',  bg: 'rgba(51,51,51,0.06)',  border: 'rgba(51,51,51,0.2)'   },
+  { icon: '🌐', label: 'App producción',   bg: 'rgba(0,154,147,0.12)', border: 'rgba(0,154,147,0.4)'  },
+]
+
+const layers = [
+  { color: '#009A93', label: 'Datos de mercado',               items: ['Alpaca API (tiempo real)', 'Yahoo Finance (históricos)'] },
+  { color: '#E37200', label: 'Modelos ML predictivos',         items: ['LSTM — Precio futuro', 'XGBoost — Señal compra/venta', 'Prophet — Tendencia IPSA', 'Random Forest — Riesgo'] },
+  { color: '#6b21a8', label: 'Agente IA (OpenClaw)',           items: ['Orquestación autónoma', 'Claude · GPT · Ollama'] },
+  { color: '#009A93', label: 'Backend y persistencia',         items: ['FastAPI RESTful', 'Supabase (PostgreSQL)'] },
+  { color: '#E37200', label: 'Frontend e interacción',         items: ['React — Visualización', 'Telegram Bot — Chatbot'] },
 ]
 
 export default function Architecture() {
@@ -67,29 +21,58 @@ export default function Architecture() {
     <section id="architecture" className="py-20 sm:py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
       <div className="wrap">
         <div className="section-tag">02 — Arquitectura</div>
-        <h2 className="font-sans font-black mb-10 sm:mb-12" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
+        <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Cómo fluye el sistema
         </h2>
+        <p className="leading-[1.8] max-w-[700px] mb-10" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#777777' }}>
+          El sistema integra datos de mercado, modelos predictivos y un agente de IA autónomo que
+          toma decisiones de rebalanceo y las comunica al usuario vía chatbot y aplicación web.
+        </p>
 
-        {/* Diagram — horizontal scroll on mobile */}
-        <div className="rounded-[18px] p-6 sm:p-10 card-shadow overflow-x-auto" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.18)' }}>
-          <div style={{ minWidth: '580px' }}>
-            {layers.map((layer, i) => (
-              <div key={layer.label}>
-                <div className="font-mono text-[11px] tracking-[0.14em] uppercase mb-2.5 font-bold" style={{ color: '#777777' }}>{layer.label}</div>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {layer.nodes.map(n => <Node key={n.label} label={n.label} style={n.style} />)}
-                </div>
-                {i < layers.length - 1 && (
-                  <div className="flex justify-center h-8 items-center mb-4 text-lg font-bold" style={{ color: '#009A93' }}>↓</div>
-                )}
-              </div>
-            ))}
+        {/* ── Diagrama principal ── */}
+        <div className="rounded-[18px] overflow-hidden card-shadow mb-10"
+          style={{ border: '2px solid rgba(0,154,147,0.2)', background: '#ffffff' }}>
+          {/* Header del diagrama */}
+          <div className="px-6 py-3 flex items-center justify-between"
+            style={{ background: 'rgba(0,154,147,0.07)', borderBottom: '1px solid rgba(0,154,147,0.15)' }}>
+            <span className="font-mono text-[12px] font-bold uppercase tracking-[0.12em]" style={{ color: '#009A93' }}>
+              Diagrama de arquitectura del sistema
+            </span>
+            <span className="font-mono text-[11px] font-bold" style={{ color: '#777777' }}>
+              MCD USACH · D. Carrasco U.
+            </span>
+          </div>
+          {/* Imagen */}
+          <div className="overflow-x-auto bg-white">
+            <img
+              src={diagramaArquitectura}
+              alt="Sistema de Gestión de Portafolio de Inversión Administrado por IA — Diagrama de arquitectura"
+              className="w-full h-auto object-contain"
+              style={{ minWidth: '600px', display: 'block' }}
+            />
           </div>
         </div>
 
-        {/* Deploy flow */}
-        <div className="mt-10 sm:mt-12">
+        {/* ── Resumen de capas ── */}
+        <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Capas del sistema</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-12">
+          {layers.map((l, i) => (
+            <div key={i} className="rounded-[14px] p-4 sm:p-5 card-shadow"
+              style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${l.color}` }}>
+              <div className="font-bold mb-2.5" style={{ fontSize: '13px', color: l.color }}>{l.label}</div>
+              <ul className="space-y-1">
+                {l.items.map(item => (
+                  <li key={item} className="font-medium leading-[1.4]" style={{ fontSize: '12px', color: '#777777' }}>
+                    · {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Flujo de deploy ── */}
+        <div style={{ borderTop: '1px solid rgba(0,154,147,0.15)', paddingTop: '32px' }}>
           <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Flujo de desarrollo y deploy</h3>
           <div className="overflow-x-auto py-4">
             <div className="flex items-center gap-1 min-w-max px-1">
@@ -110,6 +93,7 @@ export default function Architecture() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   )
