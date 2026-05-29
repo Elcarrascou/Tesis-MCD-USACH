@@ -38,7 +38,7 @@ export default function Budget() {
   return (
     <section id="budget" className="py-20 sm:py-24" style={{ background: '#f5fffe', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
       <div className="wrap">
-        <div className="section-tag">05 — Presupuesto</div>
+        <div className="section-tag">06 — Presupuesto</div>
         <h2 className="font-sans font-black mb-8 sm:mb-10" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Inversión del proyecto
         </h2>

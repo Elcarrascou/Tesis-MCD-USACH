@@ -17,7 +17,7 @@ export default function Roadmap() {
   return (
     <section id="roadmap" className="py-20 sm:py-24" style={{ background: '#ffffff' }}>
       <div className="wrap">
-        <div className="section-tag">06 — Roadmap</div>
+        <div className="section-tag">07 — Roadmap</div>
         <h2 className="font-sans font-black mb-10 sm:mb-12" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Fases de desarrollo
         </h2>

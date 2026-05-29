@@ -4,12 +4,13 @@ import { Menu, X } from 'lucide-react'
 import logoUsach from '../../assets/logoUsach.webp'
 
 const sectionLinks = [
-  { href: '#overview',     label: 'Proyecto' },
-  { href: '#architecture', label: 'Arquitectura' },
-  { href: '#ml',           label: 'Modelos ML' },
-  { href: '#stack',        label: 'Stack' },
-  { href: '#budget',       label: 'Presupuesto' },
-  { href: '#roadmap',      label: 'Roadmap' },
+  { href: '#overview',      label: 'Proyecto' },
+  { href: '#architecture',  label: 'Arquitectura' },
+  { href: '#ml',            label: 'Modelos ML' },
+  { href: '#marco-teorico', label: 'Marco Teórico' },
+  { href: '#stack',         label: 'Stack' },
+  { href: '#budget',        label: 'Presupuesto' },
+  { href: '#roadmap',       label: 'Roadmap' },
 ]
 
 const pageTabs = [

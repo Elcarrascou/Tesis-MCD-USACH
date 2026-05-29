@@ -27,7 +27,7 @@ export default function TechStack() {
   return (
     <section id="stack" className="py-20 sm:py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
       <div className="wrap">
-        <div className="section-tag">04 — Stack tecnológico</div>
+        <div className="section-tag">05 — Stack tecnológico</div>
         <h2 className="font-sans font-black mb-8 sm:mb-10" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Tecnologías del proyecto
         </h2>
