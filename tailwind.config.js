@@ -5,17 +5,17 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: '#0c1d1c',
-          2: '#112624',
-          3: '#163330',
-          4: '#1d3f3c',
+          DEFAULT: '#f4fefd',
+          2: '#ffffff',
+          3: '#e8faf8',
+          4: '#d4f4f1',
         },
         'u-blue':  { DEFAULT: '#007a74', light: '#E37200' },
         'u-gold':  { DEFAULT: '#009A93', light: '#00b5ad', pale: '#7dd8d4' },
         'u-orange': { DEFAULT: '#E37200', light: '#f08020' },
         'u-red':   '#c0392b',
-        'u-white': '#e8f5f4',
-        'u-muted': '#6a9f9c',
+        'u-white': '#1a3533',
+        'u-muted': '#4a8a86',
       },
       fontFamily: {
         sans: ['"Nunito Sans"', 'sans-serif'],

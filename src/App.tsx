@@ -8,10 +8,9 @@ import PresentacionPage from './pages/PresentacionPage'
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen">
-        <div className="grid-bg" />
+      <div className="min-h-screen bg-navy">
         <Nav />
-        <main className="relative z-10 pt-[60px]">
+        <main className="relative pt-[60px]">
           <Routes>
             <Route path="/" element={<ProyectoPage />} />
             <Route path="/anteproyecto" element={<AnteproyectoPage />} />
