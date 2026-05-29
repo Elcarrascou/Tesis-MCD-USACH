@@ -132,7 +132,7 @@ export default function MarcoTeorico() {
                     {m.points.map((pt, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: m.color }} />
-                        <span className="leading-[1.6]" style={{ fontSize: '14px', color: '#555555' }}>{pt}</span>
+                        <span className="leading-[1.6]" style={{ fontSize: '19px', color: '#555555' }}>{pt}</span>
                       </div>
                     ))}
                   </div>

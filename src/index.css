@@ -10,13 +10,13 @@
     background-color: #ffffff;
     color: #333333;
     font-family: 'Nunito Sans', sans-serif;
-    font-size: 21px;
+    font-size: 22px;
     line-height: 1.75;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
   html { scroll-behavior: smooth; }
-  p { font-size: 20px; }
+  p { font-size: 21px; }
 }
 
 @layer utilities {
