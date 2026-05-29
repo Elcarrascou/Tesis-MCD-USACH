@@ -1,4 +1,4 @@
-import { Presentation, Clock, Grid } from 'lucide-react'
+﻿import { Presentation, Clock, Grid } from 'lucide-react'
 
 const slides = [
   { num: '01', title: 'Portada',               color: '#009A93' },
@@ -12,7 +12,7 @@ const slides = [
   { num: '09', title: 'Stack tecnológico',      color: '#1a7a3c' },
   { num: '10', title: 'Resultados esperados',   color: '#E37200' },
   { num: '11', title: 'Conclusiones',           color: '#009A93' },
-  { num: '12', title: 'Preguntas',              color: '#777777' },
+  { num: '12', title: 'Preguntas',              color: '#4f4f4f' },
 ]
 
 export default function PresentacionPage() {
@@ -28,7 +28,7 @@ export default function PresentacionPage() {
           <h1 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(32px,5vw,58px)', color: '#333333' }}>
             Presentación <span style={{ color: '#009A93' }}>MCD</span>
           </h1>
-          <p className="leading-[1.8] max-w-[520px] mx-auto" style={{ fontSize: 'clamp(15px,2vw,17px)', color: '#777777' }}>
+          <p className="leading-[1.8] max-w-[520px] mx-auto" style={{ fontSize: 'clamp(15px,2vw,17px)', color: '#4f4f4f' }}>
             Láminas de la presentación final del proyecto de título ante el comité evaluador
             del Magíster en Ciencia de Datos de la USACH.
           </p>
@@ -46,7 +46,7 @@ export default function PresentacionPage() {
               <div style={{ color: '#009A93' }}>{s.icon}</div>
               <div>
                 <div className="font-sans font-black leading-none" style={{ fontSize: '26px', color: '#333333' }}>{s.val}</div>
-                <div className="font-semibold mt-0.5" style={{ fontSize: '13px', color: '#777777' }}>{s.label}</div>
+                <div className="font-semibold mt-0.5" style={{ fontSize: '13px', color: '#4f4f4f' }}>{s.label}</div>
               </div>
             </div>
           ))}
@@ -59,15 +59,16 @@ export default function PresentacionPage() {
               className="aspect-[16/9] rounded-[12px] flex flex-col items-center justify-center gap-2 cursor-default transition-all duration-200 hover:-translate-y-0.5 card-shadow"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${slide.color}` }}>
               <div className="font-mono text-[11px] sm:text-[12px] font-bold" style={{ color: slide.color }}>{slide.num}</div>
-              <div className="text-center px-2 sm:px-3 leading-[1.3] font-semibold" style={{ fontSize: '12px', color: '#777777' }}>{slide.title}</div>
+              <div className="text-center px-2 sm:px-3 leading-[1.3] font-semibold" style={{ fontSize: '12px', color: '#4f4f4f' }}>{slide.title}</div>
             </div>
           ))}
         </div>
 
-        <p className="text-center mt-8 font-mono font-bold" style={{ fontSize: '13px', color: '#777777' }}>
+        <p className="text-center mt-8 font-mono font-bold" style={{ fontSize: '13px', color: '#4f4f4f' }}>
           Las láminas serán cargadas una vez finalizadas
         </p>
       </div>
     </section>
   )
 }
+

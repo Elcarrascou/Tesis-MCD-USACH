@@ -1,4 +1,4 @@
-import { FileText, Download, Clock } from 'lucide-react'
+﻿import { FileText, Download, Clock } from 'lucide-react'
 
 export default function AnteproyectoPage() {
   return (
@@ -13,7 +13,7 @@ export default function AnteproyectoPage() {
           <h1 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(32px,5vw,58px)', color: '#333333' }}>
             Anteproyecto de <span style={{ color: '#009A93' }}>Tesis</span>
           </h1>
-          <p className="leading-[1.8] max-w-[520px] mx-auto" style={{ fontSize: 'clamp(15px,2vw,17px)', color: '#777777' }}>
+          <p className="leading-[1.8] max-w-[520px] mx-auto" style={{ fontSize: 'clamp(15px,2vw,17px)', color: '#4f4f4f' }}>
             Documento formal del anteproyecto presentado al Magíster en Ciencia de Datos de la USACH,
             incluyendo marco teórico, hipótesis, metodología y planificación.
           </p>
@@ -29,7 +29,7 @@ export default function AnteproyectoPage() {
             </div>
             <div className="text-center">
               <p className="font-bold" style={{ fontSize: '14px', color: '#333333' }}>Anteproyecto_Tesis_MCD_2026.pdf</p>
-              <p className="mt-0.5 font-medium" style={{ fontSize: '12px', color: '#777777' }}>Pendiente de carga</p>
+              <p className="mt-0.5 font-medium" style={{ fontSize: '12px', color: '#4f4f4f' }}>Pendiente de carga</p>
             </div>
           </div>
 
@@ -46,8 +46,8 @@ export default function AnteproyectoPage() {
                 { num: '7.', title: 'Presupuesto y cronograma', done: false },
               ].map(item => (
                 <div key={item.num} className="flex items-center gap-3">
-                  <span className="font-mono text-[12px] w-6 font-bold flex-shrink-0" style={{ color: '#777777' }}>{item.num}</span>
-                  <span className="font-medium" style={{ fontSize: '15px', color: item.done ? '#333333' : '#777777' }}>{item.title}</span>
+                  <span className="font-mono text-[12px] w-6 font-bold flex-shrink-0" style={{ color: '#4f4f4f' }}>{item.num}</span>
+                  <span className="font-medium" style={{ fontSize: '15px', color: item.done ? '#333333' : '#4f4f4f' }}>{item.title}</span>
                   {item.done && (
                     <span className="ml-auto font-mono text-[11px] px-2 py-0.5 rounded font-bold flex-shrink-0"
                       style={{ background: 'rgba(0,154,147,0.1)', color: '#009A93' }}>✓</span>
@@ -62,10 +62,11 @@ export default function AnteproyectoPage() {
               <Download size={17} />
               Descargar PDF
             </button>
-            <p className="text-center mt-2.5 font-mono font-bold" style={{ fontSize: '12px', color: '#777777' }}>Disponible próximamente</p>
+            <p className="text-center mt-2.5 font-mono font-bold" style={{ fontSize: '12px', color: '#4f4f4f' }}>Disponible próximamente</p>
           </div>
         </div>
       </div>
     </section>
   )
 }
+

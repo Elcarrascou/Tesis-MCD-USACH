@@ -15,7 +15,7 @@ export default {
         'u-orange': { DEFAULT: '#E37200', light: '#f5a050' },
         'u-red':    '#c0392b',
         'u-white':  '#333333',
-        'u-muted':  '#777777',
+        'u-muted':  '#4f4f4f',
       },
       fontFamily: {
         sans: ['"Nunito Sans"', 'sans-serif'],

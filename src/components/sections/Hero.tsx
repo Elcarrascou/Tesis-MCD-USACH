@@ -1,4 +1,4 @@
-export default function Hero() {
+﻿export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center py-24 sm:py-28 overflow-hidden"
       style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.15)' }}>
@@ -24,7 +24,7 @@ export default function Hero() {
         </h1>
 
         {/* Subtitle */}
-        <p className="leading-[1.8] max-w-[600px] mb-12" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#777777' }}>
+        <p className="leading-[1.8] max-w-[600px] mb-12" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
           Aplicación web que integra un agente de inteligencia artificial con modelos de machine learning
           para analizar, predecir y apoyar la toma de decisiones en un portafolio de acciones bursátiles en tiempo real.
         </p>
@@ -39,7 +39,7 @@ export default function Hero() {
           ].map(s => (
             <div key={s.label}>
               <div className="font-sans font-black tracking-tight leading-none" style={{ fontSize: 'clamp(28px,4vw,42px)', color: s.color }}>{s.val}</div>
-              <div className="text-[12px] sm:text-[13px] tracking-[0.05em] mt-1 font-mono font-bold uppercase" style={{ color: '#777777' }}>{s.label}</div>
+              <div className="text-[12px] sm:text-[13px] tracking-[0.05em] mt-1 font-mono font-bold uppercase" style={{ color: '#4f4f4f' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -47,3 +47,4 @@ export default function Hero() {
     </section>
   )
 }
+

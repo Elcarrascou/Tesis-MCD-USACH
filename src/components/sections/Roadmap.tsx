@@ -1,4 +1,4 @@
-const phases = [
+﻿const phases = [
   { phase: 'Fase 1', title: 'Setup & Configuración',        color: '#009A93', status: 'En progreso',
     desc: 'Inicialización del repositorio, configuración de Supabase, Alpaca API y entorno de desarrollo. Diseño del esquema de base de datos y arquitectura del sistema.' },
   { phase: 'Fase 2', title: 'Modelos de Machine Learning',  color: '#E37200', status: 'Próximo',
@@ -28,7 +28,7 @@ export default function Roadmap() {
             <div key={p.phase} className="relative pl-6 sm:pl-8 pb-10 last:pb-0">
               <div className="absolute left-[-18px] top-1.5 w-3.5 h-3.5 rounded-full border-2"
                 style={{ borderColor: p.color, background: '#ffffff' }} />
-              <div className="font-mono text-[11px] sm:text-[12px] mb-1.5 tracking-[0.12em] uppercase font-bold" style={{ color: '#777777' }}>{p.phase}</div>
+              <div className="font-mono text-[11px] sm:text-[12px] mb-1.5 tracking-[0.12em] uppercase font-bold" style={{ color: '#4f4f4f' }}>{p.phase}</div>
               <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
                 <h3 className="font-bold" style={{ fontSize: 'clamp(17px,2.5vw,20px)', color: '#333333' }}>{p.title}</h3>
                 <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full font-bold flex-shrink-0"
@@ -36,7 +36,7 @@ export default function Roadmap() {
                   {p.status}
                 </span>
               </div>
-              <p className="leading-[1.75]" style={{ fontSize: 'clamp(14px,2vw,16px)', color: '#777777' }}>{p.desc}</p>
+              <p className="leading-[1.75]" style={{ fontSize: 'clamp(14px,2vw,16px)', color: '#4f4f4f' }}>{p.desc}</p>
             </div>
           ))}
         </div>
@@ -44,3 +44,4 @@ export default function Roadmap() {
     </section>
   )
 }
+

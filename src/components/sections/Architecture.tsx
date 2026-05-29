@@ -1,4 +1,4 @@
-import diagramaArquitectura from '../../assets/diagrama-arquitectura.png'
+﻿import diagramaArquitectura from '../../assets/diagrama-arquitectura.png'
 
 const flowSteps = [
   { icon: '✏️', label: 'Claude Code',      bg: 'rgba(0,154,147,0.1)',  border: 'rgba(0,154,147,0.35)' },
@@ -24,7 +24,7 @@ export default function Architecture() {
         <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Cómo fluye el sistema
         </h2>
-        <p className="leading-[1.8] max-w-[700px] mb-10" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#777777' }}>
+        <p className="leading-[1.8] max-w-[700px] mb-10" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
           El sistema integra datos de mercado, modelos predictivos y un agente de IA autónomo que
           toma decisiones de rebalanceo y las comunica al usuario vía chatbot y aplicación web.
         </p>
@@ -38,7 +38,7 @@ export default function Architecture() {
             <span className="font-mono text-[12px] font-bold uppercase tracking-[0.12em]" style={{ color: '#009A93' }}>
               Diagrama de arquitectura del sistema
             </span>
-            <span className="font-mono text-[11px] font-bold" style={{ color: '#777777' }}>
+            <span className="font-mono text-[11px] font-bold" style={{ color: '#4f4f4f' }}>
               MCD USACH · D. Carrasco U.
             </span>
           </div>
@@ -62,7 +62,7 @@ export default function Architecture() {
               <div className="font-bold mb-2.5" style={{ fontSize: '13px', color: l.color }}>{l.label}</div>
               <ul className="space-y-1">
                 {l.items.map(item => (
-                  <li key={item} className="font-medium leading-[1.4]" style={{ fontSize: '12px', color: '#777777' }}>
+                  <li key={item} className="font-medium leading-[1.4]" style={{ fontSize: '12px', color: '#4f4f4f' }}>
                     · {item}
                   </li>
                 ))}
@@ -83,7 +83,7 @@ export default function Architecture() {
                       style={{ background: s.bg, border: `1.5px solid ${s.border}` }}>
                       {s.icon}
                     </div>
-                    <span className="text-[12px] text-center leading-[1.3] font-semibold" style={{ color: '#777777' }}>{s.label}</span>
+                    <span className="text-[12px] text-center leading-[1.3] font-semibold" style={{ color: '#4f4f4f' }}>{s.label}</span>
                   </div>
                   {i < flowSteps.length - 1 && (
                     <div className="text-lg font-bold mb-6 flex-shrink-0" style={{ color: '#009A93' }}>→</div>
@@ -98,3 +98,4 @@ export default function Architecture() {
     </section>
   )
 }
+

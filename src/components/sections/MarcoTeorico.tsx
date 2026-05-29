@@ -1,4 +1,4 @@
-import lstmImg      from '../../assets/diagrama-lstm.png'
+﻿import lstmImg      from '../../assets/diagrama-lstm.png'
 import xgboostImg   from '../../assets/diagrama-xgboost.png'
 import prophetImg   from '../../assets/diagrama-prophet.jpg'
 import rfImg        from '../../assets/diagrama-random-forest.jpg'
@@ -82,7 +82,7 @@ export default function MarcoTeorico() {
         <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Fundamentos de los modelos ML
         </h2>
-        <p className="leading-[1.8] max-w-[720px] mb-12 sm:mb-16" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#777777' }}>
+        <p className="leading-[1.8] max-w-[720px] mb-12 sm:mb-16" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
           Cada modelo aporta una perspectiva única para el análisis del portafolio. A continuación se presenta
           la arquitectura teórica de cada uno, con énfasis en cómo procesan los datos financieros del mercado chileno (IPSA)
           y su influencia con el índice Dow Jones.
@@ -101,7 +101,7 @@ export default function MarcoTeorico() {
                   <div className="font-sans font-black text-[52px] leading-none" style={{ color: `${m.color}15` }}>{m.num}</div>
                   <div>
                     <div className="font-black leading-none mb-1" style={{ fontSize: 'clamp(20px,3vw,26px)', color: m.color }}>{m.name}</div>
-                    <div className="font-mono text-[12px] font-bold uppercase tracking-[0.06em]" style={{ color: '#777777' }}>{m.fullName}</div>
+                    <div className="font-mono text-[12px] font-bold uppercase tracking-[0.06em]" style={{ color: '#4f4f4f' }}>{m.fullName}</div>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
@@ -111,7 +111,7 @@ export default function MarcoTeorico() {
                     {m.formula}
                   </div>
                   {/* Output */}
-                  <div className="font-semibold text-[13px]" style={{ color: '#777777' }}>
+                  <div className="font-semibold text-[13px]" style={{ color: '#4f4f4f' }}>
                     → <span style={{ color: m.color }}>{m.output}</span>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export default function MarcoTeorico() {
                     />
                   </div>
                   <div className="px-4 py-2.5 text-center" style={{ borderTop: '1px solid rgba(0,154,147,0.08)', background: '#f5fffe' }}>
-                    <span className="font-mono text-[11px] font-bold" style={{ color: '#777777' }}>{m.imgAlt}</span>
+                    <span className="font-mono text-[11px] font-bold" style={{ color: '#4f4f4f' }}>{m.imgAlt}</span>
                   </div>
                 </div>
 
@@ -162,3 +162,4 @@ export default function MarcoTeorico() {
     </section>
   )
 }
+

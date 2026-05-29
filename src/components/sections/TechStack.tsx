@@ -1,4 +1,4 @@
-const stackRows = [
+﻿const stackRows = [
   { comp: 'Broker + datos en tiempo real', tech: 'Alpaca API',                      techColor: '#009A93', cost: '$0',          costType: 'free' },
   { comp: 'Datos históricos ML',           tech: 'Yahoo Finance (yfinance)',         techColor: '#E37200', cost: '$0',          costType: 'free' },
   { comp: 'Agente IA',                     tech: 'OpenClaw',                         techColor: '#6b21a8', cost: '$6.29/mes',   costType: 'paid' },
@@ -56,7 +56,7 @@ export default function TechStack() {
               {/* Desktop row */}
               <div className="hidden md:grid px-7 py-4 items-center gap-4 text-[15px]"
                 style={{ gridTemplateColumns: '180px 1fr 110px' }}>
-                <span className="font-semibold" style={{ color: '#777777' }}>{r.comp}</span>
+                <span className="font-semibold" style={{ color: '#4f4f4f' }}>{r.comp}</span>
                 <span className="font-bold" style={{ color: r.techColor }}>{r.tech}</span>
                 <span className="font-mono text-[14px] font-bold" style={{ color: costColors[r.costType] }}>{r.cost}</span>
               </div>
@@ -65,7 +65,7 @@ export default function TechStack() {
                 style={{ gridTemplateColumns: '1fr 90px' }}>
                 <div>
                   <div className="font-bold" style={{ color: r.techColor }}>{r.tech}</div>
-                  <div className="text-[12px] font-medium mt-0.5" style={{ color: '#777777' }}>{r.comp}</div>
+                  <div className="text-[12px] font-medium mt-0.5" style={{ color: '#4f4f4f' }}>{r.comp}</div>
                 </div>
                 <span className="font-mono text-[13px] font-bold" style={{ color: costColors[r.costType] }}>{r.cost}</span>
               </div>
@@ -80,7 +80,7 @@ export default function TechStack() {
               <div key={t.name} className="rounded-[14px] p-4 sm:p-5 card-shadow transition-all hover:-translate-y-0.5"
                 style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderTop: `3px solid ${t.color}` }}>
                 <div className="font-mono text-[13px] font-bold mb-2" style={{ color: t.color }}>{t.name}</div>
-                <div className="font-medium" style={{ fontSize: '13px', color: '#777777' }}>{t.desc}</div>
+                <div className="font-medium" style={{ fontSize: '13px', color: '#4f4f4f' }}>{t.desc}</div>
               </div>
             ))}
           </div>
@@ -89,3 +89,4 @@ export default function TechStack() {
     </section>
   )
 }
+

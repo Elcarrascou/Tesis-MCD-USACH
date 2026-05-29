@@ -1,4 +1,4 @@
-const devTools = [
+﻿const devTools = [
   { name: 'Claude Code (suscripción alta)', cost: '~$100 USD', type: 'paid' },
   { name: 'Antigravity (IDE)',               cost: 'ya pagado',  type: 'owned' },
   { name: 'Google One 5TB + Gemini',         cost: 'ya pagado',  type: 'owned' },
@@ -27,7 +27,7 @@ const BudgetCard = ({ title, rows }: { title: string; rows: typeof devTools }) =
         style={{ fontSize: '15px', borderBottom: i < rows.length - 1 ? '1px solid rgba(0,154,147,0.08)' : 'none', background: '#ffffff' }}
         onMouseEnter={e => (e.currentTarget.style.background = '#f5fffe')}
         onMouseLeave={e => (e.currentTarget.style.background = '#ffffff')}>
-        <span className="font-medium" style={{ color: '#777777' }}>{r.name}</span>
+        <span className="font-medium" style={{ color: '#4f4f4f' }}>{r.name}</span>
         <span className="font-mono font-bold ml-4 flex-shrink-0" style={{ fontSize: '14px', color: costColors[r.type] }}>{r.cost}</span>
       </div>
     ))}
@@ -52,17 +52,17 @@ export default function Budget() {
           style={{ background: '#ffffff', border: '2px solid rgba(0,154,147,0.25)' }}>
           <div className="flex flex-col sm:flex-row justify-between gap-6">
             <div>
-              <div className="font-mono text-[12px] mb-2 font-bold uppercase tracking-[0.1em]" style={{ color: '#777777' }}>Costo mensual estimado</div>
+              <div className="font-mono text-[12px] mb-2 font-bold uppercase tracking-[0.1em]" style={{ color: '#4f4f4f' }}>Costo mensual estimado</div>
               <div className="font-sans font-black leading-none" style={{ fontSize: 'clamp(36px,6vw,52px)', color: '#009A93' }}>~$136 USD</div>
             </div>
             <div className="sm:text-right">
-              <div className="font-mono text-[12px] mb-2 font-bold uppercase tracking-[0.1em]" style={{ color: '#777777' }}>Presupuesto total (2 meses)</div>
+              <div className="font-mono text-[12px] mb-2 font-bold uppercase tracking-[0.1em]" style={{ color: '#4f4f4f' }}>Presupuesto total (2 meses)</div>
               <div className="font-sans font-black leading-none" style={{ fontSize: 'clamp(36px,6vw,52px)', color: '#333333' }}>~$272 USD</div>
             </div>
           </div>
         </div>
 
-        <p className="mt-5 leading-[1.75]" style={{ fontSize: '15px', color: '#777777' }}>
+        <p className="mt-5 leading-[1.75]" style={{ fontSize: '15px', color: '#4f4f4f' }}>
           Los motores de IA para OpenClaw usarán modelos gratuitos o de bajo costo (Ollama, Qwen) para operación diaria.
           Claude/OpenAI se reservan para decisiones más complejas.
         </p>
@@ -70,3 +70,4 @@ export default function Budget() {
     </section>
   )
 }
+
