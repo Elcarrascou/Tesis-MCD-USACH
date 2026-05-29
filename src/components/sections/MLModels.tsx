@@ -2,7 +2,7 @@ interface BarProps { label: string; value: string; percent: number; color: strin
 
 const Bar = ({ label, value, percent, color }: BarProps) => (
   <div className="mt-3.5">
-    <div className="flex justify-between font-mono text-[11px] mb-1.5 font-bold" style={{ color: '#777777' }}>
+    <div className="flex justify-between font-mono text-[12px] mb-1.5 font-bold" style={{ color: '#777777' }}>
       <span>{label}</span><span style={{ color }}>{value}</span>
     </div>
     <div className="h-1.5 rounded-full" style={{ background: 'rgba(0,154,147,0.1)' }}>
@@ -56,40 +56,42 @@ const models = [
 
 export default function MLModels() {
   return (
-    <section id="ml" className="py-24" style={{ background: '#f5fffe', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
-      <div className="max-w-5xl mx-auto px-9">
+    <section id="ml" className="py-20 sm:py-24" style={{ background: '#f5fffe', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
+      <div className="wrap">
         <div className="section-tag">03 — Machine Learning</div>
-        <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#333333' }}>
+        <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Cuatro modelos, una decisión
         </h2>
-        <p className="leading-[1.8] max-w-[680px] mb-12" style={{ fontSize: '17px', color: '#777777' }}>
+        <p className="leading-[1.8] max-w-[680px] mb-10 sm:mb-12" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#777777' }}>
           Cada modelo aporta una perspectiva diferente. FastAPI consolida las 4 predicciones y OpenClaw
           las pondera para generar la recomendación final.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {models.map(m => (
             <div key={m.num}
-              className="rounded-[16px] p-7 transition-all duration-200 hover:-translate-y-0.5 card-shadow"
+              className="rounded-[16px] p-6 sm:p-7 transition-all duration-200 hover:-translate-y-0.5 card-shadow"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.1)', borderTop: `3px solid ${m.accentBorder}` }}>
-              <div className="font-sans text-[52px] font-black leading-none mb-2" style={{ color: 'rgba(0,154,147,0.07)' }}>{m.num}</div>
-              <div className="text-[19px] font-bold mb-0.5" style={{ color: m.nameColor }}>{m.name}</div>
+              <div className="font-sans font-black leading-none mb-2" style={{ fontSize: '52px', color: 'rgba(0,154,147,0.07)' }}>{m.num}</div>
+              <div className="font-bold mb-0.5" style={{ fontSize: '19px', color: m.nameColor }}>{m.name}</div>
               <div className="font-mono text-[11px] mb-4 tracking-[0.07em] font-bold uppercase" style={{ color: '#777777' }}>{m.role}</div>
-              <p className="leading-[1.7]" style={{ fontSize: '14px', color: '#777777' }}>{m.desc}</p>
-              <p className="mt-4 text-[14px] font-bold" style={{ color: m.targetColor }}>{m.target}</p>
+              <p className="leading-[1.7]" style={{ fontSize: '15px', color: '#777777' }}>{m.desc}</p>
+              <p className="mt-4 font-bold" style={{ fontSize: '14px', color: m.targetColor }}>{m.target}</p>
               {m.bars.map(b => <Bar key={b.label} {...b} />)}
             </div>
           ))}
         </div>
 
-        <div className="mt-7 rounded-[16px] p-7 card-shadow" style={{ background: '#ffffff', border: '2px solid rgba(0,154,147,0.2)' }}>
-          <h3 className="text-[19px] font-bold mb-4" style={{ color: '#333333' }}>Flujo de consolidación de predicciones</h3>
-          <p className="font-mono leading-[2.2]" style={{ fontSize: '13px', color: '#777777' }}>
-            Yahoo Finance (datos históricos) → entrenamiento de los 4 modelos<br />
-            LSTM → precio futuro &nbsp;|&nbsp; XGBoost → señal compra/venta &nbsp;|&nbsp; Prophet → tendencia &nbsp;|&nbsp; Random Forest → riesgo<br />
-            FastAPI consolida las 4 predicciones → OpenClaw (IA) pondera y genera recomendación<br />
-            App Web muestra resultado + confianza → usuario ejecuta en Alpaca
-          </p>
+        <div className="mt-6 sm:mt-7 rounded-[16px] p-6 sm:p-7 card-shadow" style={{ background: '#ffffff', border: '2px solid rgba(0,154,147,0.2)' }}>
+          <h3 className="font-bold mb-4" style={{ fontSize: '18px', color: '#333333' }}>Flujo de consolidación de predicciones</h3>
+          <div className="overflow-x-auto">
+            <p className="font-mono leading-[2.2] whitespace-nowrap" style={{ fontSize: '13px', color: '#777777' }}>
+              Yahoo Finance (datos históricos) → entrenamiento de los 4 modelos<br />
+              LSTM → precio futuro &nbsp;|&nbsp; XGBoost → señal compra/venta &nbsp;|&nbsp; Prophet → tendencia &nbsp;|&nbsp; Random Forest → riesgo<br />
+              FastAPI consolida las 4 predicciones → OpenClaw (IA) pondera y genera recomendación<br />
+              App Web muestra resultado + confianza → usuario ejecuta en Alpaca
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -10,7 +10,7 @@ export default function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-navy">
         <Nav />
-        <main className="relative pt-[60px]">
+        <main className="relative pt-[63px]">
           <Routes>
             <Route path="/" element={<ProyectoPage />} />
             <Route path="/anteproyecto" element={<AnteproyectoPage />} />

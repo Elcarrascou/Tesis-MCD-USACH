@@ -7,7 +7,7 @@ const nodeStyles: Record<NodeStyle, React.CSSProperties> = {
 }
 
 const Node = ({ label, style }: { label: string; style: NodeStyle }) => (
-  <div className="flex items-center gap-2 px-4 py-2 rounded-[10px] text-[13px] whitespace-nowrap transition-transform duration-150 hover:-translate-y-0.5 cursor-default"
+  <div className="flex items-center gap-2 px-3.5 py-2 rounded-[10px] text-[13px] whitespace-nowrap cursor-default"
     style={nodeStyles[style]}>
     {label}
   </div>
@@ -55,53 +55,59 @@ const layers = [
 ]
 
 const flowSteps = [
-  { icon: '✏️', label: 'Claude Code',       bg: 'rgba(0,154,147,0.1)',  border: 'rgba(0,154,147,0.35)', color: '#009A93' },
-  { icon: '🐙', label: 'GitHub',             bg: '#f5fffe',              border: 'rgba(0,154,147,0.2)',  color: '#333333' },
-  { icon: '▲',  label: 'Vercel Frontend',   bg: 'rgba(227,114,0,0.08)', border: 'rgba(227,114,0,0.35)', color: '#b35900' },
-  { icon: '🚄', label: 'Railway Backend',   bg: 'rgba(51,51,51,0.06)',  border: 'rgba(51,51,51,0.2)',   color: '#555555' },
-  { icon: '🌐', label: 'App en producción', bg: 'rgba(0,154,147,0.12)', border: 'rgba(0,154,147,0.4)',  color: '#009A93' },
+  { icon: '✏️', label: 'Claude Code',       bg: 'rgba(0,154,147,0.1)',  border: 'rgba(0,154,147,0.35)' },
+  { icon: '🐙', label: 'GitHub',             bg: '#f5fffe',              border: 'rgba(0,154,147,0.2)'  },
+  { icon: '▲',  label: 'Vercel Frontend',   bg: 'rgba(227,114,0,0.08)', border: 'rgba(227,114,0,0.35)' },
+  { icon: '🚄', label: 'Railway Backend',   bg: 'rgba(51,51,51,0.06)',  border: 'rgba(51,51,51,0.2)'   },
+  { icon: '🌐', label: 'App producción',    bg: 'rgba(0,154,147,0.12)', border: 'rgba(0,154,147,0.4)'  },
 ]
 
 export default function Architecture() {
   return (
-    <section id="architecture" className="py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
-      <div className="max-w-5xl mx-auto px-9">
+    <section id="architecture" className="py-20 sm:py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
+      <div className="wrap">
         <div className="section-tag">02 — Arquitectura</div>
-        <h2 className="font-sans font-black mb-12" style={{ fontSize: 'clamp(28px,3.5vw,44px)', color: '#333333' }}>
+        <h2 className="font-sans font-black mb-10 sm:mb-12" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
           Cómo fluye el sistema
         </h2>
 
-        <div className="rounded-[18px] p-10 card-shadow" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.18)' }}>
-          {layers.map((layer, i) => (
-            <div key={layer.label}>
-              <div className="font-mono text-[11px] tracking-[0.14em] uppercase mb-3 font-bold" style={{ color: '#777777' }}>{layer.label}</div>
-              <div className="flex flex-wrap gap-2.5 mb-5">
-                {layer.nodes.map(n => <Node key={n.label} label={n.label} style={n.style} />)}
-              </div>
-              {i < layers.length - 1 && (
-                <div className="flex justify-center h-8 items-center mb-5 text-lg font-bold" style={{ color: '#009A93' }}>↓</div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-12">
-          <h3 className="text-[20px] font-bold mb-5" style={{ color: '#333333' }}>Flujo de desarrollo y deploy</h3>
-          <div className="flex items-center overflow-x-auto gap-1 py-6">
-            {flowSteps.map((s, i) => (
-              <div key={s.label} className="flex items-center gap-1 flex-shrink-0">
-                <div className="flex flex-col items-center gap-2.5 min-w-[110px]">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-[20px] transition-transform duration-150 hover:-translate-y-0.5 card-shadow"
-                    style={{ background: s.bg, border: `1.5px solid ${s.border}` }}>
-                    {s.icon}
-                  </div>
-                  <span className="text-[12px] text-center max-w-[90px] leading-[1.3] font-semibold" style={{ color: '#777777' }}>{s.label}</span>
+        {/* Diagram — horizontal scroll on mobile */}
+        <div className="rounded-[18px] p-6 sm:p-10 card-shadow overflow-x-auto" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.18)' }}>
+          <div style={{ minWidth: '580px' }}>
+            {layers.map((layer, i) => (
+              <div key={layer.label}>
+                <div className="font-mono text-[11px] tracking-[0.14em] uppercase mb-2.5 font-bold" style={{ color: '#777777' }}>{layer.label}</div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {layer.nodes.map(n => <Node key={n.label} label={n.label} style={n.style} />)}
                 </div>
-                {i < flowSteps.length - 1 && (
-                  <div className="text-lg mb-6 flex-shrink-0 font-bold" style={{ color: '#009A93' }}>→</div>
+                {i < layers.length - 1 && (
+                  <div className="flex justify-center h-8 items-center mb-4 text-lg font-bold" style={{ color: '#009A93' }}>↓</div>
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Deploy flow */}
+        <div className="mt-10 sm:mt-12">
+          <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Flujo de desarrollo y deploy</h3>
+          <div className="overflow-x-auto py-4">
+            <div className="flex items-center gap-1 min-w-max px-1">
+              {flowSteps.map((s, i) => (
+                <div key={s.label} className="flex items-center gap-1">
+                  <div className="flex flex-col items-center gap-2.5 w-[100px] sm:w-[110px]">
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center text-[20px] card-shadow"
+                      style={{ background: s.bg, border: `1.5px solid ${s.border}` }}>
+                      {s.icon}
+                    </div>
+                    <span className="text-[12px] text-center leading-[1.3] font-semibold" style={{ color: '#777777' }}>{s.label}</span>
+                  </div>
+                  {i < flowSteps.length - 1 && (
+                    <div className="text-lg font-bold mb-6 flex-shrink-0" style={{ color: '#009A93' }}>→</div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
