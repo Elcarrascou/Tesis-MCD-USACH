@@ -122,7 +122,7 @@ export default function MarcoTeorico() {
 
                 {/* Text side (alternates left/right) */}
                 <div className={`px-6 sm:px-9 py-7 ${idx % 2 !== 0 ? 'lg:order-2' : ''}`}>
-                  <p className="leading-[1.8] mb-6" style={{ fontSize: 'clamp(14px,1.8vw,16px)', color: '#555555' }}>
+                  <p className="leading-[1.8] mb-6" style={{ fontSize: '17px', color: '#555555' }}>
                     {m.description}
                   </p>
                   <div className="space-y-2.5">
@@ -132,7 +132,7 @@ export default function MarcoTeorico() {
                     {m.points.map((pt, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: m.color }} />
-                        <span className="leading-[1.6]" style={{ fontSize: '19px', color: '#555555' }}>{pt}</span>
+                        <span className="leading-[1.6]" style={{ fontSize: '17px', color: '#555555' }}>{pt}</span>
                       </div>
                     ))}
                   </div>
