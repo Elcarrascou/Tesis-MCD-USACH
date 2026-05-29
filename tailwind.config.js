@@ -5,17 +5,17 @@ export default {
     extend: {
       colors: {
         navy: {
-          DEFAULT: '#f4fefd',
+          DEFAULT: '#ffffff',
           2: '#ffffff',
-          3: '#e8faf8',
-          4: '#d4f4f1',
+          3: '#f5fffe',
+          4: '#eafaff',
         },
-        'u-blue':  { DEFAULT: '#007a74', light: '#E37200' },
-        'u-gold':  { DEFAULT: '#009A93', light: '#00b5ad', pale: '#7dd8d4' },
-        'u-orange': { DEFAULT: '#E37200', light: '#f08020' },
-        'u-red':   '#c0392b',
-        'u-white': '#1a3533',
-        'u-muted': '#4a8a86',
+        'u-blue':   { DEFAULT: '#009A93', light: '#E37200' },
+        'u-gold':   { DEFAULT: '#009A93', light: '#1ab0a8', pale: '#a8e6e3' },
+        'u-orange': { DEFAULT: '#E37200', light: '#f5a050' },
+        'u-red':    '#c0392b',
+        'u-white':  '#333333',
+        'u-muted':  '#777777',
       },
       fontFamily: {
         sans: ['"Nunito Sans"', 'sans-serif'],
@@ -30,4 +30,3 @@ export default {
   },
   plugins: [],
 }
-
