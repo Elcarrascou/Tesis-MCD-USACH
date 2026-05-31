@@ -15,6 +15,7 @@ const sectionLinks = [
 
 const pageTabs = [
   { to: '/',             label: 'Proyecto',     end: true },
+  { to: '/solucion',     label: 'Sistema',      end: false },
   { to: '/anteproyecto', label: 'Anteproyecto', end: false },
   { to: '/presentacion', label: 'Presentación', end: false },
 ]

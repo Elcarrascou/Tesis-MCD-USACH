@@ -4,6 +4,7 @@ import Footer from './components/layout/Footer'
 import ProyectoPage from './pages/ProyectoPage'
 import AnteproyectoPage from './pages/AnteproyectoPage'
 import PresentacionPage from './pages/PresentacionPage'
+import SolucionPage from './pages/SolucionPage'
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="/" element={<ProyectoPage />} />
             <Route path="/anteproyecto" element={<AnteproyectoPage />} />
             <Route path="/presentacion" element={<PresentacionPage />} />
+            <Route path="/solucion" element={<SolucionPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
