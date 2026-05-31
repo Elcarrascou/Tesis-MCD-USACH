@@ -5,6 +5,7 @@
 
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
+  html { color-scheme: light; }
   body {
     background-color: #ffffff;
     color: #333333;
@@ -16,6 +17,16 @@
   }
   html { scroll-behavior: smooth; }
   p { font-size: 21px; }
+
+  /* web-design-guidelines: honrar prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {

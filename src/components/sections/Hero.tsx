@@ -38,7 +38,7 @@
             { val: '~$136', label: 'USD / mes',          color: '#009A93' },
           ].map(s => (
             <div key={s.label}>
-              <div className="font-sans font-black tracking-tight leading-none" style={{ fontSize: 'clamp(28px,4vw,42px)', color: s.color }}>{s.val}</div>
+              <div className="font-sans font-black tracking-tight leading-none tabular-nums" style={{ fontSize: 'clamp(28px,4vw,42px)', color: s.color }}>{s.val}</div>
               <div className="text-[12px] sm:text-[13px] tracking-[0.05em] mt-1 font-mono font-bold uppercase" style={{ color: '#4f4f4f' }}>{s.label}</div>
             </div>
           ))}

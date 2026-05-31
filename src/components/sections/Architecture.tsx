@@ -47,12 +47,17 @@ export default function Architecture() {
             </span>
           </div>
           <div
-            className="overflow-x-auto bg-white relative group cursor-zoom-in"
+            role="button"
+            tabIndex={0}
+            aria-label="Ampliar diagrama de arquitectura del sistema"
+            className="overflow-x-auto bg-white relative group cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#009A93]"
             onClick={() => setLightbox(true)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightbox(true) } }}
           >
             <img
               src={diagramaArquitectura}
               alt="Sistema de Gestión de Portafolio de Inversión Administrado por IA — Diagrama de arquitectura"
+              loading="lazy"
               className="w-full h-auto object-contain block transition-opacity duration-150 group-hover:opacity-90"
               style={{ minWidth: '600px' }}
             />
@@ -60,7 +65,7 @@ export default function Architecture() {
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none">
               <div className="flex items-center gap-2 px-4 py-2 rounded-full font-bold text-[14px]"
                 style={{ background: 'rgba(0,0,0,0.55)', color: '#ffffff', backdropFilter: 'blur(4px)' }}>
-                <ZoomIn size={16} /> Ver en grande
+                <ZoomIn size={16} aria-hidden="true" /> Ver en grande
               </div>
             </div>
           </div>

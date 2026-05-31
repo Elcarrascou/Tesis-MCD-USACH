@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 /* ─────────────────────────────────────────────
    DATOS DEL DIAGRAMA
@@ -81,7 +81,9 @@ const EDGES: EdgeDef[] = [
 /* ─────────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────────── */
-function getNode(id: string) { return NODES.find(n => n.id === id)! }
+// js-index-maps: Map O(1) en vez de Array.find() O(n) en cada llamada
+const NODE_MAP = new Map(NODES.map(n => [n.id, n]))
+function getNode(id: string) { return NODE_MAP.get(id)! }
 
 function edgePath(e: EdgeDef) {
   const a = getNode(e.from), b = getNode(e.to)
@@ -112,8 +114,8 @@ export default function SolucionPage() {
   const [selected, setSelected] = useState<string|null>(null)
   const [animated, setAnimated] = useState(true)
 
-  // Cerrar al clicar fondo
-  const connected = selected ? connectedTo(selected) : null
+  // rerender-memo: recalcular el Set de conexiones solo cuando cambia la selección
+  const connected = useMemo(() => (selected ? connectedTo(selected) : null), [selected])
   const selNode   = selected ? getNode(selected) : null
 
   return (
@@ -133,8 +135,11 @@ export default function SolucionPage() {
         {/* Toggle animación */}
         <div className="flex items-center gap-3 mb-10">
           <button
+            type="button"
             onClick={() => setAnimated(a => !a)}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[13px] font-bold transition-all"
+            aria-pressed={animated}
+            aria-label={animated ? 'Pausar animación del flujo' : 'Animar el flujo'}
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-[13px] font-bold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#009A93]"
             style={{
               background: animated ? '#009A93' : 'rgba(0,154,147,0.1)',
               color: animated ? '#fff' : '#009A93',
@@ -143,8 +148,9 @@ export default function SolucionPage() {
             {animated ? '⏸ Pausar flujo' : '▶ Animar flujo'}
           </button>
           {selected && (
-            <button onClick={() => setSelected(null)}
-              className="px-4 py-1.5 rounded-full font-mono text-[13px] font-bold"
+            <button type="button" onClick={() => setSelected(null)}
+              aria-label="Limpiar selección del diagrama"
+              className="px-4 py-1.5 rounded-full font-mono text-[13px] font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
               style={{ background:'rgba(51,51,51,0.06)', color:'#333', border:'1px solid rgba(51,51,51,0.15)' }}>
               ✕ Limpiar selección
             </button>

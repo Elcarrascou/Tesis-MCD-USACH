@@ -77,14 +77,21 @@ export default function Nav() {
           </div>
         </div>
 
-        <button className="lg:hidden p-1" style={{ color: 'rgba(255,255,255,0.6)' }} onClick={() => setOpen(!open)}>
-          {open ? <X size={22} /> : <Menu size={22} />}
+        <button
+          type="button"
+          className="lg:hidden p-1 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+          style={{ color: 'rgba(255,255,255,0.6)' }}
+          onClick={() => setOpen(!open)}
+          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={open}
+          aria-controls="mobile-menu">
+          {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
         </button>
       </nav>
 
       {/* Mobile menu */}
       {open && (
-        <div className="fixed top-[64px] left-0 right-0 z-[99] p-4 flex flex-col gap-1.5 lg:hidden"
+        <div id="mobile-menu" className="fixed top-[64px] left-0 right-0 z-[99] p-4 flex flex-col gap-1.5 lg:hidden"
           style={{ background: '#333333', borderBottom: '2px solid #009A93' }}>
           {pageTabs.map(t => (
             <NavLink key={t.to} to={t.to} end={t.end} onClick={() => setOpen(false)}
