@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ExternalLink } from 'lucide-react'
 import logoUsach from '../../assets/logoUsach.webp'
 
 const sectionLinks = [
@@ -75,6 +75,15 @@ export default function Nav() {
               </NavLink>
             ))}
           </div>
+
+          {/* CTA: abre el portal operacional en ventana nueva */}
+          <a href="/portal" target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[13px] px-4 py-2 rounded-lg font-bold transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ background: '#E37200', color: '#ffffff' }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#f5a050')}
+            onMouseLeave={e => (e.currentTarget.style.background = '#E37200')}>
+            <ExternalLink size={14} aria-hidden="true" /> Portal IA
+          </a>
         </div>
 
         <button
@@ -102,6 +111,11 @@ export default function Nav() {
               {t.label}
             </NavLink>
           ))}
+          <a href="/portal" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
+            className="flex items-center gap-1.5 text-[14px] px-3 py-2.5 rounded-lg font-bold"
+            style={{ background: '#E37200', color: '#ffffff' }}>
+            <ExternalLink size={15} aria-hidden="true" /> Portal IA
+          </a>
           {isHome && (
             <>
               <div className="my-1.5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />

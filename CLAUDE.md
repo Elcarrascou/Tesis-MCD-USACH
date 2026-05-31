@@ -89,6 +89,19 @@ src/
 
 ---
 
+## 🔐 Portal de Gestión (operacional, autenticado)
+
+Sección separada del sitio marketing. Se abre en **ventana nueva** desde el header (CTA naranja "Portal IA" → `target="_blank"` a `/portal`).
+
+- **Auth:** Supabase Auth (email+password) vía `src/context/AuthContext.tsx` (`useAuth`). Rutas protegidas con `components/portal/ProtectedRoute.tsx`.
+- **Credenciales demo:** `demo@tesis-mcd.cl` / `Portafolio2026` (usuario sembrado en `auth.users`).
+  - ⚠️ Al sembrar usuarios por SQL, las columnas de token (`confirmation_token`, `recovery_token`, `email_change`, `email_change_token_new/current`, `phone_change`, `phone_change_token`, `reauthentication_token`) DEBEN ser `''` (no NULL) o GoTrue devuelve 500 "error querying schema".
+- **Layout:** `components/portal/PortalLayout.tsx` (sidebar onyx + outlet). Páginas en `src/pages/portal/`.
+- **Páginas:** Portafolio (`/portal`), Movimientos, Decisiones IA, Ganancias, Modelos ML — todas leen de Supabase con `useSupabaseQuery` + `lib/queries.ts`. "Ejecutar en Alpaca" = link externo.
+- **RLS:** las 5 tablas operacionales son `select to authenticated` (no anon). El portal requiere login para ver datos.
+- **Datos demo** sembrados en las 5 tablas para que el portal no esté vacío.
+- Formateo con `src/lib/format.ts` (Intl: USD, fechas es-CL, %).
+
 ## Stack técnico
 
 Vite + React 19 + TypeScript + Tailwind CSS v3 + React Router + lucide-react + @supabase/supabase-js. CI en `.github/workflows/ci.yml` (lint + build en push/PR a main).
