@@ -156,7 +156,7 @@ export default function SolucionPage() {
           style={{ border:'1px solid rgba(0,154,147,0.18)', background:'#fafcfc' }}>
           <svg
             viewBox="0 0 1010 520"
-            style={{ minWidth:680, width:'100%', display:'block', fontFamily:'Nunito Sans, sans-serif' }}
+            style={{ minWidth:680, width:'100%', display:'block', fontFamily:'"Nunito Sans", sans-serif' }}
             onClick={() => setSelected(null)}
           >
             {/* ── Defs: arrowhead ── */}
@@ -175,7 +175,7 @@ export default function SolucionPage() {
                 <rect x={l.x - NW/2} y={8} width={NW} height={22} rx={6}
                   fill="rgba(0,154,147,0.07)" stroke="rgba(0,154,147,0.2)" strokeWidth={1} />
                 <text x={l.x} y={23} textAnchor="middle" fontSize={11}
-                  fontWeight="700" fill="#009A93" fontFamily="JetBrains Mono, monospace" letterSpacing="0.05em">
+                  fontWeight="700" fill="#009A93" fontFamily='"JetBrains Mono", monospace' letterSpacing="0.05em">
                   {l.label.toUpperCase()}
                 </text>
               </g>
