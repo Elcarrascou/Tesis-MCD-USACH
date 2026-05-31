@@ -1,21 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
-  <!-- Fondo circular teal -->
-  <circle cx="18" cy="18" r="18" fill="#009A93"/>
-  <!-- Escudo contorno exterior -->
-  <path d="M18 4L30 9V19C30 26.5 18 32.5 18 32.5C18 32.5 6 26.5 6 19V9L18 4Z"
-        fill="white" opacity="0.95"/>
-  <!-- Interior escudo (fondo teal) -->
-  <path d="M18 7.5L27.5 11.5V19C27.5 24.5 18 29.5 18 29.5C18 29.5 8.5 24.5 8.5 19V11.5L18 7.5Z"
-        fill="#009A93"/>
-  <!-- Cuadrante sup-izq: blanco -->
-  <rect x="10.5" y="13" width="6.5" height="6" rx="1" fill="white" opacity="0.95"/>
-  <!-- Cuadrante sup-der: naranja -->
-  <rect x="19"   y="13" width="6.5" height="6" rx="1" fill="#E37200"/>
-  <!-- Cuadrante inf-izq: naranja -->
-  <rect x="10.5" y="20" width="6.5" height="4" rx="1" fill="#E37200"/>
-  <!-- Cuadrante inf-der: blanco -->
-  <rect x="19"   y="20" width="6.5" height="4" rx="1" fill="white" opacity="0.95"/>
-  <!-- Divisores -->
-  <line x1="18"   y1="13"   x2="18"   y2="24"   stroke="#009A93" stroke-width="0.8"/>
-  <line x1="10.5" y1="19.5" x2="25.5" y2="19.5" stroke="#009A93" stroke-width="0.8"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64">
+  <!-- Fondo teal circular -->
+  <circle cx="32" cy="32" r="32" fill="#009A93"/>
+  <!-- Logo USACH blanco sobre fondo teal -->
+  <image href="data:image/webp;base64,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" x="4" y="4" width="56" height="56" preserveAspectRatio="xMidYMid meet"/>
 </svg>
