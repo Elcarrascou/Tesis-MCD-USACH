@@ -1,4 +1,5 @@
 ﻿import { FileText, Download, Clock } from 'lucide-react'
+import { ANTEPROYECTO_SECTIONS } from '../data/presentation'
 
 export default function AnteproyectoPage() {
   return (
@@ -36,15 +37,7 @@ export default function AnteproyectoPage() {
           <div className="p-6 sm:p-7">
             <h3 className="font-bold mb-5" style={{ fontSize: '17px', color: '#333333' }}>Contenido del documento</h3>
             <div className="space-y-3">
-              {[
-                { num: '1.', title: 'Resumen ejecutivo',        done: true },
-                { num: '2.', title: 'Introducción',             done: true },
-                { num: '3.', title: 'Hipótesis y objetivos',    done: true },
-                { num: '4.', title: 'Marco Teórico',            done: true },
-                { num: '5.', title: 'Metodología',              done: false },
-                { num: '6.', title: 'Plan de desarrollo',       done: false },
-                { num: '7.', title: 'Presupuesto y cronograma', done: false },
-              ].map(item => (
+              {ANTEPROYECTO_SECTIONS.map(item => (
                 <div key={item.num} className="flex items-center gap-3">
                   <span className="font-mono text-[12px] w-6 font-bold flex-shrink-0" style={{ color: '#4f4f4f' }}>{item.num}</span>
                   <span className="font-medium" style={{ fontSize: '15px', color: item.done ? '#333333' : '#4f4f4f' }}>{item.title}</span>

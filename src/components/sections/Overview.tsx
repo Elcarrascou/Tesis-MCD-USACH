@@ -1,18 +1,11 @@
-﻿const Tag = ({ label }: { label: string }) => (
+﻿import { APP_VIEWS } from '../../data/architecture'
+
+const Tag = ({ label }: { label: string }) => (
   <span className="inline-block font-mono text-[12px] px-2.5 py-1 rounded mr-1.5 mb-1.5 font-bold"
     style={{ background: 'rgba(0,154,147,0.1)', border: '1px solid rgba(0,154,147,0.3)', color: '#009A93' }}>
     {label}
   </span>
 )
-
-const appViews = [
-  { icon: '📈', title: 'Portafolio',         desc: 'Posiciones actuales, valor total y distribución de activos desde Alpaca en tiempo real.', top: '#009A93' },
-  { icon: '🔄', title: 'Movimientos',        desc: 'Historial completo de transacciones sincronizadas desde Alpaca.' },
-  { icon: '🧠', title: 'Decisiones IA',      desc: 'Registro de recomendaciones del agente OpenClaw con su justificación.' },
-  { icon: '💰', title: 'Ganancias',          desc: 'Rendimiento del portafolio en el tiempo comparado con benchmarks del mercado.' },
-  { icon: '🔬', title: 'Modelos ML',         desc: 'Predicciones actualizadas periódicamente de los 4 modelos con métricas de confianza.' },
-  { icon: '↗',  title: 'Ejecutar en Alpaca', desc: 'La IA sugiere la operación. El usuario la ejecuta en Alpaca con un click directo.', special: true },
-]
 
 export default function Overview() {
   return (
@@ -50,7 +43,7 @@ export default function Overview() {
 
         <h3 className="font-bold mb-5 sm:mb-6" style={{ fontSize: '20px', color: '#333333' }}>Vistas de la aplicación web</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {appViews.map(v => (
+          {APP_VIEWS.map(v => (
             <div key={v.title}
               className="rounded-[16px] p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 card-shadow"
               style={{

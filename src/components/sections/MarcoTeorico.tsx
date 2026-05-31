@@ -1,65 +1,7 @@
 import { useState } from 'react'
 import { ZoomIn } from 'lucide-react'
-import lstmImg    from '../../assets/diagrama-lstm.png'
-import xgboostImg from '../../assets/diagrama-xgboost.png'
-import prophetImg from '../../assets/diagrama-prophet.jpg'
-import rfImg      from '../../assets/diagrama-random-forest.jpg'
 import Lightbox   from '../ui/Lightbox'
-
-const models = [
-  {
-    num: '01', name: 'LSTM', fullName: 'Long Short-Term Memory',
-    color: '#009A93', formula: 'hₜ = oₜ ⊙ tanh(Cₜ)', output: 'Predicción de precio futuro',
-    image: lstmImg,
-    imgAlt: 'Anatomía de una Red Neuronal Recurrente LSTM — Flujo de información y compuertas',
-    description: 'Las redes LSTM son un tipo de red neuronal recurrente diseñada para aprender dependencias a largo plazo en datos secuenciales. Cuentan con tres compuertas: olvido (decide qué información descartar del estado anterior), entrada (guarda nueva información relevante) y salida (filtra el estado de la celda para generar el estado oculto). Esta arquitectura la hace ideal para predecir series temporales financieras, capturando patrones históricos de precio y volatilidad de las acciones del IPSA influenciadas por el Dow Jones.',
-    points: [
-      'Compuerta de olvido — descarta información irrelevante del pasado',
-      'Compuerta de entrada — incorpora nueva información del mercado',
-      'Estado de celda — "cinta transportadora" de memoria a largo plazo',
-      'Compuerta de salida — genera la predicción de precio futuro',
-    ],
-  },
-  {
-    num: '02', name: 'XGBoost', fullName: 'Extreme Gradient Boosting',
-    color: '#E37200', formula: 'ŷ = Σₖ fₖ(xᵢ),  fₖ ∈ F', output: 'Señal de compra / venta',
-    image: xgboostImg,
-    imgAlt: 'Arquitectura XGBoost — Entrenamiento secuencial de árboles de decisión',
-    description: 'XGBoost construye un ensamble de árboles de decisión de forma secuencial, donde cada árbol corrige los errores residuales del modelo anterior. Trabaja con variables mixtas como precio, volumen, volatilidad e indicadores técnicos para generar una señal de trading. Su eficiencia computacional y robustez ante datos financieros ruidosos lo convierten en uno de los modelos más utilizados en predicción financiera cuantitativa.',
-    points: [
-      'Entrenamiento secuencial — cada árbol corrige el error del anterior',
-      'Regularización L1/L2 — evita el sobreajuste en datos financieros',
-      'Variables: precio, volumen, volatilidad, indicadores técnicos',
-      'Salida: probabilidad de compra o venta (señal de trading)',
-    ],
-  },
-  {
-    num: '03', name: 'Prophet', fullName: 'Time Series Forecasting — Meta AI',
-    color: '#1a7a3c', formula: 'y(t) = g(t) + s(t) + h(t) + ε', output: 'Tendencia y estacionalidad del mercado',
-    image: prophetImg,
-    imgAlt: 'Arquitectura del Modelo Prophet — Componentes de tendencia, estacionalidad y feriados',
-    description: 'Prophet descompone la serie temporal en tres componentes aditivos: tendencia g(t) que modela el crecimiento a largo plazo, estacionalidad s(t) que captura patrones cíclicos del mercado (diarios, semanales, anuales) y efectos de feriados h(t) como el cierre de bolsas. Esta transparencia y facilidad de interpretación lo hace muy valioso para presentar y explicar predicciones ante el comité evaluador del MCD.',
-    points: [
-      'g(t) — tendencia: modela el crecimiento general del activo',
-      's(t) — estacionalidad: captura ciclos del mercado financiero',
-      'h(t) — feriados: ajusta cierres de bolsa y eventos especiales',
-      'ε — ruido: variabilidad residual no explicada por el modelo',
-    ],
-  },
-  {
-    num: '04', name: 'Random Forest', fullName: 'Ensemble Classification (Bosque Aleatorio)',
-    color: '#6b21a8', formula: 'ŷ_final = Ensemble{ŷ₁, ŷ₂, … ŷₜ}', output: 'Nivel de riesgo del activo',
-    image: rfImg,
-    imgAlt: 'Arquitectura del Modelo Random Forest — Votación mayoritaria de árboles individuales',
-    description: 'Random Forest construye múltiples árboles de decisión usando muestreo bootstrap (remuestreo con reemplazo) y subconjuntos aleatorios de características. La predicción final se obtiene por votación mayoritaria para clasificación o promedio para regresión. Clasifica el nivel de riesgo del activo (bajo/medio/alto) evaluando simultáneamente múltiples variables financieras, entregando al agente IA una señal confiable sobre el perfil de riesgo del portafolio.',
-    points: [
-      'Muestreo Bootstrap — cada árbol se entrena con datos distintos',
-      'Votación mayoritaria — decisión colectiva de N árboles',
-      'Clasificación: riesgo bajo / medio / alto del activo',
-      'Alta interpretabilidad — importancia de variables financieras',
-    ],
-  },
-]
+import { ML_MODELS } from '../../data/models'
 
 export default function MarcoTeorico() {
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null)
@@ -78,7 +20,7 @@ export default function MarcoTeorico() {
         </p>
 
         <div className="space-y-10 sm:space-y-14">
-          {models.map((m, idx) => (
+          {ML_MODELS.map((m, idx) => (
             <div key={m.num} className="rounded-[20px] overflow-hidden card-shadow"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderTop: `4px solid ${m.color}` }}>
 

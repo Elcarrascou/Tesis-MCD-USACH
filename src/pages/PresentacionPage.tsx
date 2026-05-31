@@ -1,19 +1,7 @@
 ﻿import { Presentation, Clock, Grid } from 'lucide-react'
+import { SLIDES, PRESENTATION_STATS } from '../data/presentation'
 
-const slides = [
-  { num: '01', title: 'Portada',               color: '#009A93' },
-  { num: '02', title: 'Introducción',           color: '#E37200' },
-  { num: '03', title: 'Problemática',           color: '#6b21a8' },
-  { num: '04', title: 'Hipótesis',              color: '#1a7a3c' },
-  { num: '05', title: 'Marco Teórico',          color: '#009A93' },
-  { num: '06', title: 'Arquitectura',           color: '#E37200' },
-  { num: '07', title: 'Modelos ML',             color: '#009A93' },
-  { num: '08', title: 'Agente IA',              color: '#6b21a8' },
-  { num: '09', title: 'Stack tecnológico',      color: '#1a7a3c' },
-  { num: '10', title: 'Resultados esperados',   color: '#E37200' },
-  { num: '11', title: 'Conclusiones',           color: '#009A93' },
-  { num: '12', title: 'Preguntas',              color: '#4f4f4f' },
-]
+const STAT_ICONS = [<Presentation size={20} />, <Grid size={20} />, <Clock size={20} />]
 
 export default function PresentacionPage() {
   return (
@@ -37,15 +25,11 @@ export default function PresentacionPage() {
         {/* Stats bar */}
         <div className="flex flex-wrap gap-6 sm:gap-10 justify-center mb-10 sm:mb-12 p-5 sm:p-6 rounded-[16px] card-shadow"
           style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)' }}>
-          {[
-            { icon: <Presentation size={20} />, val: '12', label: 'Láminas planificadas' },
-            { icon: <Grid size={20} />,         val: '6',  label: 'Secciones temáticas' },
-            { icon: <Clock size={20} />,        val: '15', label: 'Min. estimados' },
-          ].map(s => (
+          {PRESENTATION_STATS.map((s, i) => (
             <div key={s.label} className="flex items-center gap-3">
-              <div style={{ color: '#009A93' }}>{s.icon}</div>
+              <div style={{ color: '#009A93' }}>{STAT_ICONS[i]}</div>
               <div>
-                <div className="font-sans font-black leading-none" style={{ fontSize: '26px', color: '#333333' }}>{s.val}</div>
+                <div className="font-sans font-black leading-none tabular-nums" style={{ fontSize: '26px', color: '#333333' }}>{s.val}</div>
                 <div className="font-semibold mt-0.5" style={{ fontSize: '13px', color: '#4f4f4f' }}>{s.label}</div>
               </div>
             </div>
@@ -54,7 +38,7 @@ export default function PresentacionPage() {
 
         {/* Slide grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
-          {slides.map(slide => (
+          {SLIDES.map(slide => (
             <div key={slide.num}
               className="aspect-[16/9] rounded-[12px] flex flex-col items-center justify-center gap-2 cursor-default transition-all duration-200 hover:-translate-y-0.5 card-shadow"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${slide.color}` }}>
