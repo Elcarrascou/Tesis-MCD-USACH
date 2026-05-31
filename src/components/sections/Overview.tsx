@@ -29,7 +29,7 @@ export default function Overview() {
           <div className="rounded-[16px] p-6 sm:p-7 card-shadow" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderLeft: '4px solid #009A93' }}>
             <div className="section-tag">Ámbito 1</div>
             <h3 className="font-bold mb-3.5" style={{ fontSize: '18px', color: '#333333' }}>🤖 Inteligencia Artificial</h3>
-            <p className="leading-[1.75]" style={{ fontSize: '15px', color: '#4f4f4f' }}>
+            <p className="leading-[1.75]" style={{ fontSize: '17px', color: '#4f4f4f' }}>
               Agente OpenClaw hosteado en Hostinger que analiza el portafolio diariamente, interpreta eventos de mercado
               y genera recomendaciones en lenguaje natural via Telegram o WhatsApp.
             </p>
@@ -38,7 +38,7 @@ export default function Overview() {
           <div className="rounded-[16px] p-6 sm:p-7 card-shadow" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderLeft: '4px solid #E37200' }}>
             <div className="section-tag" style={{ color: '#E37200' }}>Ámbito 2</div>
             <h3 className="font-bold mb-3.5" style={{ fontSize: '18px', color: '#333333' }}>📊 Machine Learning</h3>
-            <p className="leading-[1.75]" style={{ fontSize: '15px', color: '#4f4f4f' }}>
+            <p className="leading-[1.75]" style={{ fontSize: '17px', color: '#4f4f4f' }}>
               Cuatro modelos entrenados con datos históricos de Yahoo Finance que predicen precios, generan señales
               de compra/venta, detectan tendencias y clasifican el riesgo del portafolio.
             </p>
@@ -59,8 +59,8 @@ export default function Overview() {
                 borderTop: v.top ? `3px solid ${v.top}` : undefined,
               }}>
               <div className="text-[24px] mb-3">{v.icon}</div>
-              <h3 className="font-bold mb-2" style={{ fontSize: '16px', color: '#333333' }}>{v.title}</h3>
-              <p className="leading-[1.65]" style={{ fontSize: '14px', color: '#4f4f4f' }}>{v.desc}</p>
+              <h3 className="font-bold mb-2" style={{ fontSize: '18px', color: '#333333' }}>{v.title}</h3>
+              <p className="leading-[1.65]" style={{ fontSize: '16px', color: '#4f4f4f' }}>{v.desc}</p>
             </div>
           ))}
         </div>

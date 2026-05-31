@@ -74,9 +74,9 @@ export default function MLModels() {
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.1)', borderTop: `3px solid ${m.accentBorder}` }}>
               <div className="font-sans font-black leading-none mb-2" style={{ fontSize: '52px', color: 'rgba(0,154,147,0.07)' }}>{m.num}</div>
               <div className="font-bold mb-0.5" style={{ fontSize: '19px', color: m.nameColor }}>{m.name}</div>
-              <div className="font-mono text-[11px] mb-4 tracking-[0.07em] font-bold uppercase" style={{ color: '#4f4f4f' }}>{m.role}</div>
-              <p className="leading-[1.7]" style={{ fontSize: '15px', color: '#4f4f4f' }}>{m.desc}</p>
-              <p className="mt-4 font-bold" style={{ fontSize: '14px', color: m.targetColor }}>{m.target}</p>
+              <div className="font-mono text-[14px] mb-4 tracking-[0.05em] font-bold uppercase" style={{ color: '#4f4f4f' }}>{m.role}</div>
+              <p className="leading-[1.7]" style={{ fontSize: '17px', color: '#4f4f4f' }}>{m.desc}</p>
+              <p className="mt-4 font-bold" style={{ fontSize: '17px', color: m.targetColor }}>{m.target}</p>
               {m.bars.map(b => <Bar key={b.label} {...b} />)}
             </div>
           ))}

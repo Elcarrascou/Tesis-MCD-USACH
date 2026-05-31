@@ -72,10 +72,10 @@ export default function Architecture() {
           {layers.map((l, i) => (
             <div key={i} className="rounded-[14px] p-4 sm:p-5 card-shadow"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${l.color}` }}>
-              <div className="font-bold mb-2.5" style={{ fontSize: '13px', color: l.color }}>{l.label}</div>
-              <ul className="space-y-1">
+              <div className="font-bold mb-2.5" style={{ fontSize: '16px', color: l.color }}>{l.label}</div>
+              <ul className="space-y-1.5">
                 {l.items.map(item => (
-                  <li key={item} className="font-medium leading-[1.4]" style={{ fontSize: '12px', color: '#4f4f4f' }}>· {item}</li>
+                  <li key={item} className="font-medium leading-[1.5]" style={{ fontSize: '15px', color: '#4f4f4f' }}>· {item}</li>
                 ))}
               </ul>
             </div>
