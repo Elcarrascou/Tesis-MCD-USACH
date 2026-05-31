@@ -39,7 +39,7 @@ const NODES: NodeDef[] = [
   // — IA —
   { id:'openclaw', label:'OpenClaw',           sub:'Agente autónomo',      x:690, y:195, color:'#6b21a8',
     desc:'Orquesta los modelos ML, razona sobre el mercado y genera recomendaciones de rebalanceo.',             tech:'OpenClaw · Hostinger' },
-  { id:'llms',     label:'Claude / GPT / Ollama', sub:'Motores LLM',      x:690, y:370, color:'#333333',
+  { id:'llms',     label:'Motores LLM',           sub:'Claude/GPT/Ollama', x:690, y:370, color:'#333333',
     desc:'Motores de lenguaje que alimentan a OpenClaw: Claude para decisiones complejas, Ollama para uso diario.', tech:'Anthropic · OpenAI · Ollama' },
 
   // — Output —
@@ -232,9 +232,10 @@ export default function SolucionPage() {
                     opacity={isDimmed ? 0.18 : 1}
                     style={{ filter: isDimmed ? 'none' : 'drop-shadow(0 2px 6px rgba(0,0,0,0.08))', transition:'opacity 0.25s' }}
                   />
-                  {/* Label */}
+                  {/* Label — tamaño adaptado al largo del texto */}
                   <text x={n.x} y={n.y - 8} textAnchor="middle"
-                    fontSize={isSelected ? 13 : 12} fontWeight="800"
+                    fontSize={n.label.length > 13 ? (isSelected ? 11 : 10) : (isSelected ? 13 : 12)}
+                    fontWeight="800"
                     fill={isSelected ? '#ffffff' : '#222222'}
                     opacity={isDimmed ? 0.2 : 1}
                     style={{ transition:'opacity 0.25s' }}>
