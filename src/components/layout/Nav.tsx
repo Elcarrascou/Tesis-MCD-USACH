@@ -5,6 +5,7 @@ import logoUsach from '../../assets/logoUsach.webp'
 
 const sectionLinks = [
   { href: '#overview',      label: 'Proyecto' },
+  { href: '#portal-promo',  label: 'Demo' },
   { href: '#architecture',  label: 'Arquitectura' },
   { href: '#ml',            label: 'Modelos ML' },
   { href: '#marco-teorico', label: 'Marco Teórico' },

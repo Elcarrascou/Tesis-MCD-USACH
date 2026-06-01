@@ -1,5 +1,6 @@
 import Hero          from '../components/sections/Hero'
 import Overview      from '../components/sections/Overview'
+import PortalPromo   from '../components/sections/PortalPromo'
 import Architecture  from '../components/sections/Architecture'
 import MLModels      from '../components/sections/MLModels'
 import MarcoTeorico  from '../components/sections/MarcoTeorico'
@@ -12,6 +13,7 @@ export default function ProyectoPage() {
     <>
       <Hero />
       <Overview />
+      <PortalPromo />
       <Architecture />
       <MLModels />
       <MarcoTeorico />
