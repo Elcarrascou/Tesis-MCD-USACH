@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, ArrowLeftRight, BrainCircuit, TrendingUp, FlaskConical, LogOut, Menu, X, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, ArrowLeftRight, BrainCircuit, TrendingUp, FlaskConical, BarChart3, LogOut, Menu, X, ExternalLink } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import logoUsach from '../../assets/logoUsach.webp'
 
@@ -10,6 +10,7 @@ const NAV = [
   { to: '/portal/decisiones',  label: 'Decisiones IA', icon: BrainCircuit,    end: false },
   { to: '/portal/ganancias',   label: 'Ganancias',     icon: TrendingUp,      end: false },
   { to: '/portal/modelos',     label: 'Modelos ML',    icon: FlaskConical,    end: false },
+  { to: '/portal/analytics',   label: 'Analytics',     icon: BarChart3,       end: false },
 ]
 
 const ALPACA_URL = 'https://app.alpaca.markets/'

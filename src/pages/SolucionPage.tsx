@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import {
   SYSTEM_NODES, SYSTEM_EDGES, SYSTEM_LAYERS, SYSTEM_LEGEND,
   NODE_W as NW, NODE_H as NH, NODE_R as R,
@@ -8,6 +9,37 @@ import {
 const NODES  = SYSTEM_NODES
 const EDGES  = SYSTEM_EDGES
 const LAYERS = SYSTEM_LAYERS
+
+// ──────────────── Subcomponentes del panel de detalle ────────────────
+
+interface DetailSectionProps { label: string; color: string; children: ReactNode }
+
+function DetailSection({ label, color, children }: DetailSectionProps) {
+  return (
+    <section>
+      <div className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] mb-2.5 flex items-center gap-2">
+        <span className="inline-block w-5 h-[2px] rounded-sm" style={{ background: color }} />
+        <span style={{ color }}>{label}</span>
+      </div>
+      {children}
+    </section>
+  )
+}
+
+interface BulletListProps { items: string[]; color: string }
+
+function BulletList({ items, color }: BulletListProps) {
+  return (
+    <ul className="space-y-1.5">
+      {items.map(item => (
+        <li key={item} className="flex items-start gap-2.5 leading-[1.55]" style={{ fontSize:'14px', color:'#333333' }}>
+          <span className="font-mono text-[11px] font-bold flex-shrink-0 mt-[3px]" style={{ color }}>▸</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 /* ─────────────────────────────────────────────
    COMPONENTE PRINCIPAL
@@ -31,7 +63,8 @@ export default function SolucionPage() {
         </h1>
         <p className="leading-[1.8] max-w-[740px] mb-3" style={{ fontSize:'clamp(15px,1.8vw,18px)', color:'#4f4f4f' }}>
           Diagrama completo del sistema. <strong style={{color:'#333'}}>Haz click en cualquier nodo</strong> para
-          ver su rol, tecnología y conexiones dentro del portafolio gestionado por IA.
+          desplegar su definición técnica, aplicación en este proyecto de tesis, inputs/outputs financieros,
+          métricas de decisión y rationale de elección.
         </p>
 
         {/* Toggle animación */}
@@ -171,8 +204,9 @@ export default function SolucionPage() {
             minHeight: 100,
           }}>
           {selNode ? (
-            <div>
-              <div className="px-7 py-5 flex flex-wrap items-center gap-4"
+            <article aria-live="polite">
+              {/* Header */}
+              <header className="px-7 py-5 flex flex-wrap items-center gap-4"
                 style={{ background:`${selNode.color}0f`, borderBottom:`1px solid ${selNode.color}25` }}>
                 <div>
                   <div className="font-black text-[22px]" style={{ color: selNode.color }}>{selNode.label}</div>
@@ -182,25 +216,76 @@ export default function SolucionPage() {
                   style={{ background:`${selNode.color}15`, border:`1px solid ${selNode.color}35`, color: selNode.color }}>
                   {selNode.tech}
                 </div>
+              </header>
+
+              <div className="px-7 py-6 grid grid-cols-1 lg:grid-cols-2 gap-x-9 gap-y-7">
+
+                {/* QUÉ ES — definición técnica */}
+                <DetailSection label="01 — Definición técnica" color={selNode.color}>
+                  <p className="leading-[1.75]" style={{ fontSize:'15px', color:'#333333' }}>
+                    {selNode.detail.whatIs}
+                  </p>
+                </DetailSection>
+
+                {/* APLICACIÓN EN ESTE PROYECTO */}
+                <DetailSection label="02 — Aplicación en el proyecto" color={selNode.color}>
+                  <p className="leading-[1.75]" style={{ fontSize:'15px', color:'#333333' }}>
+                    {selNode.detail.usage}
+                  </p>
+                </DetailSection>
+
+                {/* INPUTS */}
+                {selNode.detail.inputs && (
+                  <DetailSection label="03 — Entradas (inputs)" color={selNode.color}>
+                    <BulletList items={selNode.detail.inputs} color={selNode.color} />
+                  </DetailSection>
+                )}
+
+                {/* OUTPUTS */}
+                {selNode.detail.outputs && (
+                  <DetailSection label="04 — Salidas (outputs)" color={selNode.color}>
+                    <BulletList items={selNode.detail.outputs} color={selNode.color} />
+                  </DetailSection>
+                )}
+
+                {/* MÉTRICAS DE DECISIÓN */}
+                {selNode.detail.decisionMetrics && (
+                  <DetailSection label="05 — Métricas para la toma de decisiones" color={selNode.color}>
+                    <BulletList items={selNode.detail.decisionMetrics} color={selNode.color} />
+                  </DetailSection>
+                )}
+
+                {/* RATIONALE */}
+                {selNode.detail.rationale && (
+                  <DetailSection label="06 — Por qué se eligió" color={selNode.color}>
+                    <p className="leading-[1.75] italic" style={{ fontSize:'15px', color:'#4f4f4f' }}>
+                      {selNode.detail.rationale}
+                    </p>
+                  </DetailSection>
+                )}
               </div>
-              <div className="px-7 py-5">
-                <p className="leading-[1.8]" style={{ fontSize:'17px', color:'#333333' }}>{selNode.desc}</p>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  {/* Conexiones */}
+
+              {/* Conexiones (footer) */}
+              <footer className="px-7 pt-5 pb-6"
+                style={{ borderTop:'1px solid rgba(0,154,147,0.12)', background:'#fafcfc' }}>
+                <div className="font-mono text-[11px] font-bold uppercase tracking-[0.12em] mb-3" style={{ color:'#4f4f4f' }}>
+                  Componentes conectados
+                </div>
+                <div className="flex flex-wrap gap-2.5">
                   {EDGES.filter(e => e.from === selNode.id || e.to === selNode.id).map((e, i) => {
                     const other = e.from === selNode.id ? getNode(e.to) : getNode(e.from)
                     const dir   = e.from === selNode.id ? '→' : '←'
                     return (
-                      <button key={i} onClick={() => setSelected(other.id)}
-                        className="flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold text-[13px] transition-all hover:-translate-y-0.5"
+                      <button key={i} type="button" onClick={() => setSelected(other.id)}
+                        className="flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold text-[13px] transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
                         style={{ background:`${e.color}12`, border:`1px solid ${e.color}40`, color: e.color }}>
                         <span style={{ opacity:0.6 }}>{dir}</span> {other.label}
                       </button>
                     )
                   })}
                 </div>
-              </div>
-            </div>
+              </footer>
+            </article>
           ) : (
             <div className="flex items-center justify-center h-24 gap-3">
               <div className="w-2 h-2 rounded-full animate-blink" style={{ background:'#009A93' }} />

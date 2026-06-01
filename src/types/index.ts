@@ -86,6 +86,22 @@ export interface RoadmapPhase {
   status: string
 }
 
+/** Detalle técnico extendido de un nodo del sistema. */
+export interface NodeDetail {
+  /** Qué es: definición conceptual/teórica del componente. */
+  whatIs: string
+  /** Cómo se aplica específicamente en este proyecto de tesis. */
+  usage: string
+  /** Qué entradas recibe (inputs financieros/datos). */
+  inputs?: string[]
+  /** Qué salidas produce (outputs aprovechables). */
+  outputs?: string[]
+  /** Métricas relevantes / KPIs que entrega para la toma de decisiones. */
+  decisionMetrics?: string[]
+  /** Por qué se eligió esta tecnología/modelo sobre alternativas. */
+  rationale?: string
+}
+
 /** Nodo del diagrama interactivo del sistema */
 export interface SystemNode {
   id: string
@@ -96,6 +112,8 @@ export interface SystemNode {
   color: string
   desc: string
   tech: string
+  /** Información detallada que se muestra al hacer click en el nodo. */
+  detail: NodeDetail
 }
 
 /** Conexión (arista) del diagrama interactivo */

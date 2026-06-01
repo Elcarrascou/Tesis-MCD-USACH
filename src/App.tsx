@@ -15,6 +15,7 @@ import PortalMovimientos from './pages/portal/PortalMovimientos'
 import PortalDecisiones from './pages/portal/PortalDecisiones'
 import PortalGanancias from './pages/portal/PortalGanancias'
 import PortalModelos from './pages/portal/PortalModelos'
+import PortalAnalytics from './pages/portal/PortalAnalytics'
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="decisiones" element={<PortalDecisiones />} />
             <Route path="ganancias" element={<PortalGanancias />} />
             <Route path="modelos" element={<PortalModelos />} />
+            <Route path="analytics" element={<PortalAnalytics />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" replace />} />

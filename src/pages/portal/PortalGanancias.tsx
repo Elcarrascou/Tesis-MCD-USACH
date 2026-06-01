@@ -1,66 +1,83 @@
+import { useMemo } from 'react'
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
 import { getPerformance } from '../../lib/queries'
 import { fmtUSD, fmtPct, fmtDate } from '../../lib/format'
 import { PageHeader, Card, QueryState } from '../../components/portal/ui'
+import { LineChartCompare } from '../../components/portal/charts'
 
-function Sparkline({ values, color }: { values: number[]; color: string }) {
-  if (values.length < 2) return null
-  const W = 720, H = 180, P = 8
-  const min = Math.min(...values), max = Math.max(...values)
-  const range = max - min || 1
-  const pts = values.map((v, i) => {
-    const x = P + (i / (values.length - 1)) * (W - 2 * P)
-    const y = H - P - ((v - min) / range) * (H - 2 * P)
-    return [x, y]
-  })
-  const line = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')
-  const area = `${line} L${pts[pts.length - 1][0].toFixed(1)},${H - P} L${pts[0][0].toFixed(1)},${H - P} Z`
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ minWidth: 400 }} role="img" aria-label="Evolución del valor del portafolio">
-      <defs>
-        <linearGradient id="perf-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.18" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      <path d={area} fill="url(#perf-grad)" />
-      <path d={line} fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />
-    </svg>
-  )
-}
+const dayLabel = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: 'short' })
+
+const EMPTY_ROWS: Awaited<ReturnType<typeof getPerformance>> = []
 
 export default function PortalGanancias() {
   const { data, loading, error } = useSupabaseQuery(() => getPerformance(365), [])
-  const rows = data ?? []
+  const rows = data ?? EMPTY_ROWS
   const last = rows[rows.length - 1]
-  const values = rows.map(r => r.total_value)
+
+  // Construir series base normalizadas a 100 (portafolio vs benchmark) para comparar evolución relativa.
+  const { labels, portfolioSeries, benchmarkSeries } = useMemo(() => {
+    if (rows.length === 0) return { labels: [], portfolioSeries: [], benchmarkSeries: [] }
+    const lbls = rows.map(r => dayLabel.format(new Date(r.snapshot_date)))
+    let cumPort = 100, cumBench = 100
+    const port: number[] = [100]
+    const bench: number[] = [100]
+    for (let i = 1; i < rows.length; i++) {
+      cumPort  *= 1 + (rows[i].daily_return_pct ?? 0) / 100
+      cumBench *= 1 + (rows[i].benchmark_return_pct ? rows[i].benchmark_return_pct! - (rows[i-1].benchmark_return_pct ?? 0) : 0) / 100
+      port.push(cumPort)
+      bench.push(cumBench)
+    }
+    return { labels: lbls, portfolioSeries: port, benchmarkSeries: bench }
+  }, [rows])
 
   const kpis = last ? [
     { label: 'Valor actual',        value: fmtUSD(last.total_value), color: '#009A93' },
     { label: 'Retorno acumulado',   value: fmtPct(last.cumulative_return_pct), color: (last.cumulative_return_pct ?? 0) >= 0 ? '#1a7a3c' : '#c0392b' },
     { label: 'Benchmark (IPSA)',    value: fmtPct(last.benchmark_return_pct), color: '#E37200' },
+    { label: 'Alpha vs benchmark',  value: fmtPct((last.cumulative_return_pct ?? 0) - (last.benchmark_return_pct ?? 0)), color: '#6b21a8' },
   ] : []
 
   return (
     <>
       <PageHeader tag="Portal · Ganancias" title="Rendimiento del portafolio"
-        subtitle="Evolución del valor total comparado con el benchmark del mercado." />
+        subtitle="Evolución del valor total comparada con el benchmark del mercado (IPSA)." />
 
       <QueryState loading={loading} error={error} empty={rows.length === 0} emptyLabel="Aún no hay métricas de rendimiento.">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           {kpis.map(k => (
             <Card key={k.label} className="p-5" style={{ borderTop: `3px solid ${k.color}` }}>
               <div className="font-mono text-[11px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: '#4f4f4f' }}>{k.label}</div>
-              <div className="font-sans font-black leading-none tabular-nums" style={{ fontSize: '28px', color: k.color }}>{k.value}</div>
+              <div className="font-sans font-black leading-none tabular-nums" style={{ fontSize: 'clamp(20px,3vw,28px)', color: k.color }}>{k.value}</div>
             </Card>
           ))}
         </div>
 
+        {/* Comparación: Portafolio vs Benchmark (base 100) */}
         <Card className="p-6 mb-6">
-          <h2 className="font-bold text-[16px] mb-4" style={{ color: '#333333' }}>Evolución del valor (últimos {rows.length} días)</h2>
-          <div className="overflow-x-auto"><Sparkline values={values} color="#009A93" /></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-3 mb-2">
+            <h2 className="font-bold text-[16px]" style={{ color: '#333333' }}>Evolución relativa (base 100)</h2>
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color:'#4f4f4f' }}>
+              últimos {rows.length} días
+            </span>
+          </div>
+          <p className="leading-[1.5] mb-4" style={{ fontSize:'13px', color:'#4f4f4f' }}>
+            Ambas series parten en 100 al inicio del período. La separación entre las líneas representa el alpha generado.
+          </p>
+          <div className="overflow-x-auto">
+            <LineChartCompare
+              labels={labels}
+              series={[
+                { label: 'Portafolio',     color: '#009A93', values: portfolioSeries },
+                { label: 'Benchmark IPSA', color: '#E37200', values: benchmarkSeries },
+              ]}
+              height={240}
+              yFormatter={(v) => v.toFixed(1)}
+              title="Comparación Portafolio vs Benchmark IPSA"
+            />
+          </div>
         </Card>
 
+        {/* Detalle diario */}
         <Card>
           <div className="px-6 py-4" style={{ borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
             <h2 className="font-bold text-[16px]" style={{ color: '#333333' }}>Detalle diario</h2>

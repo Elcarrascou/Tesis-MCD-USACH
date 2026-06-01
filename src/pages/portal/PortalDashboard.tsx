@@ -1,15 +1,29 @@
+import { useMemo } from 'react'
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
 import { getPortfolio } from '../../lib/queries'
 import { fmtUSD, fmtNum, fmtPct } from '../../lib/format'
 import { PageHeader, Card, QueryState } from '../../components/portal/ui'
+import { DonutChart } from '../../components/portal/charts'
+
+const EMPTY_ROWS: Awaited<ReturnType<typeof getPortfolio>> = []
 
 export default function PortalDashboard() {
   const { data, loading, error } = useSupabaseQuery(getPortfolio, [])
-  const rows = data ?? []
+  const rows = data ?? EMPTY_ROWS
 
   const totalValue = rows.reduce((s, r) => s + (r.market_value ?? 0), 0)
   const totalPnl   = rows.reduce((s, r) => s + (r.unrealized_pnl ?? 0), 0)
   const pnlPct     = totalValue ? (totalPnl / (totalValue - totalPnl)) * 100 : 0
+
+  // Distribución por activo (donut)
+  const donutData = useMemo(
+    () => rows.filter(r => (r.market_value ?? 0) > 0).map(r => ({ label: r.symbol, value: r.market_value ?? 0 })),
+    [rows],
+  )
+
+  // Top winner / top loser
+  const topWinner = useMemo(() => [...rows].sort((a, b) => (b.unrealized_pnl ?? 0) - (a.unrealized_pnl ?? 0))[0], [rows])
+  const topLoser  = useMemo(() => [...rows].sort((a, b) => (a.unrealized_pnl ?? 0) - (b.unrealized_pnl ?? 0))[0], [rows])
 
   const kpis = [
     { label: 'Valor del portafolio', value: fmtUSD(totalValue), color: '#009A93' },
@@ -31,6 +45,51 @@ export default function PortalDashboard() {
             {k.sub && <div className="font-mono text-[13px] font-bold mt-1 tabular-nums" style={{ color: k.color }}>{k.sub}</div>}
           </Card>
         ))}
+      </div>
+
+      {/* Distribución + Top movers */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+        {/* Donut: 2 cols */}
+        <Card className="lg:col-span-2 p-6">
+          <h2 className="font-bold text-[16px] mb-4" style={{ color:'#333333' }}>Distribución del portafolio</h2>
+          <QueryState loading={loading} error={error} empty={donutData.length === 0} emptyLabel="Sin posiciones para distribuir.">
+            <DonutChart
+              data={donutData}
+              centerValue={fmtUSD(totalValue)}
+              centerLabel="Total"
+              title="Distribución del portafolio por activo"
+            />
+          </QueryState>
+        </Card>
+
+        {/* Top movers: 1 col, vertical */}
+        <Card className="p-6 flex flex-col gap-5">
+          <div>
+            <div className="font-mono text-[11px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color:'#4f4f4f' }}>Top ganador</div>
+            {topWinner ? (
+              <>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-black text-[22px]" style={{ color:'#1a7a3c' }}>{topWinner.symbol}</span>
+                  <span className="font-mono text-[14px] font-bold tabular-nums" style={{ color:'#1a7a3c' }}>{fmtUSD(topWinner.unrealized_pnl)}</span>
+                </div>
+                <div className="text-[12px] mt-0.5" style={{ color:'#4f4f4f' }}>peso {fmtPct(topWinner.weight_pct)}</div>
+              </>
+            ) : <div className="text-[13px]" style={{ color:'#4f4f4f' }}>—</div>}
+          </div>
+          <div style={{ borderTop:'1px solid rgba(0,154,147,0.12)' }} />
+          <div>
+            <div className="font-mono text-[11px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color:'#4f4f4f' }}>Top perdedor</div>
+            {topLoser ? (
+              <>
+                <div className="flex items-baseline gap-2">
+                  <span className="font-black text-[22px]" style={{ color: (topLoser.unrealized_pnl ?? 0) < 0 ? '#c0392b' : '#1a7a3c' }}>{topLoser.symbol}</span>
+                  <span className="font-mono text-[14px] font-bold tabular-nums" style={{ color: (topLoser.unrealized_pnl ?? 0) < 0 ? '#c0392b' : '#1a7a3c' }}>{fmtUSD(topLoser.unrealized_pnl)}</span>
+                </div>
+                <div className="text-[12px] mt-0.5" style={{ color:'#4f4f4f' }}>peso {fmtPct(topLoser.weight_pct)}</div>
+              </>
+            ) : <div className="text-[13px]" style={{ color:'#4f4f4f' }}>—</div>}
+          </div>
+        </Card>
       </div>
 
       {/* Positions table */}
