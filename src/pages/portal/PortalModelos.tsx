@@ -44,10 +44,10 @@ export default function PortalModelos() {
             const meta = MODEL_META[p.model] ?? { label: p.model, color: '#009A93' }
             const isNew = p.id === highlightId
             return (
-              <Card key={p.id} className="p-5"
+              <Card key={p.id} className="p-5 card-press"
                 style={{
                   borderTop: `3px solid ${meta.color}`,
-                  animation: isNew ? 'rt-card-flash 2.4s ease-out' : undefined,
+                  animation: isNew ? 'rt-card-flash 1800ms' : undefined,
                 }}>
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   <span className="font-bold text-[15px]" style={{ color: meta.color }}>{meta.label}</span>
@@ -92,10 +92,11 @@ export default function PortalModelos() {
 
       <style>{`
         @keyframes rt-card-flash {
-          0%   { box-shadow: 0 0 0 0 rgba(0,154,147,0); transform: translateY(-4px); }
-          20%  { box-shadow: 0 0 0 4px rgba(0,154,147,0.35); transform: translateY(0); }
+          0%   { box-shadow: 0 0 0 0 rgba(0,154,147,0); transform: translateY(-6px); opacity: 0.7; }
+          15%  { box-shadow: 0 0 0 5px rgba(0,154,147,0.32); transform: translateY(0); opacity: 1; }
           100% { box-shadow: 0 0 0 0 rgba(0,154,147,0); }
         }
+        [style*="rt-card-flash"] { animation-timing-function: var(--ease-out); }
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
       `}</style>
     </>

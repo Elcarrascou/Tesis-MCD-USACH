@@ -45,7 +45,7 @@ function Sidebar({ email, onSignOut, onNavigate, realtimeStatus }: SidebarProps)
           const Icon = item.icon
           return (
             <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[14px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#009A93]"
+              className="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-[14px] font-semibold press"
               style={({ isActive }) => isActive
                 ? { background: '#009A93', color: '#ffffff' }
                 : { color: 'rgba(255,255,255,0.6)' }}>
@@ -56,7 +56,7 @@ function Sidebar({ email, onSignOut, onNavigate, realtimeStatus }: SidebarProps)
 
         {/* Ejecutar en Alpaca */}
         <a href={ALPACA_URL} target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3.5 py-2.5 mt-2 rounded-lg text-[14px] font-semibold transition-colors focus-visible:outline focus-visible:outline-2"
+          className="flex items-center gap-3 px-3.5 py-2.5 mt-2 rounded-lg text-[14px] font-semibold press"
           style={{ color: '#f5a050', border: '1px dashed rgba(227,114,0,0.45)' }}>
           <ExternalLink size={18} aria-hidden="true" /> Ejecutar en Alpaca
         </a>
@@ -66,7 +66,7 @@ function Sidebar({ email, onSignOut, onNavigate, realtimeStatus }: SidebarProps)
       <div className="px-4 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="text-[11px] mb-2 truncate" style={{ color: 'rgba(255,255,255,0.45)' }}>{email}</div>
         <button type="button" onClick={onSignOut}
-          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-[13px] font-bold transition-colors focus-visible:outline focus-visible:outline-2"
+          className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-[13px] font-bold press"
           style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.8)' }}>
           <LogOut size={15} aria-hidden="true" /> Cerrar sesión
         </button>

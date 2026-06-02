@@ -84,7 +84,7 @@ export default function LoginPage() {
             )}
 
             <button type="submit" disabled={submitting}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl text-[15px] font-bold transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50"
+              className="flex items-center justify-center gap-2 py-3 rounded-xl text-[15px] font-bold press disabled:opacity-50"
               style={{ background: '#009A93', color: '#ffffff' }}>
               <LogIn size={17} aria-hidden="true" />
               {submitting ? 'Ingresando…' : 'Ingresar'}

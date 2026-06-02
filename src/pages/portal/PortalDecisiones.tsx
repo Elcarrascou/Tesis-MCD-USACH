@@ -40,10 +40,10 @@ export default function PortalDecisiones() {
           {rows.map(d => {
             const isNew = d.id === highlightId
             return (
-              <Card key={d.id} className="p-5"
+              <Card key={d.id} className="p-5 card-press"
                 style={{
                   borderLeft: '4px solid #6b21a8',
-                  animation: isNew ? 'rt-card-flash 2.4s ease-out' : undefined,
+                  animation: isNew ? 'rt-card-flash 1800ms' : undefined,
                 }}>
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   {d.symbol && <span className="font-bold text-[16px]" style={{ color: '#333333' }}>{d.symbol}</span>}
@@ -73,11 +73,13 @@ export default function PortalDecisiones() {
       </QueryState>
 
       <style>{`
+        /* Flash card insert: ease-out custom, glow + leve drop-in */
         @keyframes rt-card-flash {
-          0%   { box-shadow: 0 0 0 0 rgba(26,122,60,0); transform: translateY(-4px); }
-          20%  { box-shadow: 0 0 0 4px rgba(26,122,60,0.35); transform: translateY(0); }
+          0%   { box-shadow: 0 0 0 0 rgba(26,122,60,0); transform: translateY(-6px); opacity: 0.7; }
+          15%  { box-shadow: 0 0 0 5px rgba(26,122,60,0.32); transform: translateY(0); opacity: 1; }
           100% { box-shadow: 0 0 0 0 rgba(26,122,60,0); }
         }
+        [style*="rt-card-flash"] { animation-timing-function: var(--ease-out); }
         @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
       `}</style>
     </>

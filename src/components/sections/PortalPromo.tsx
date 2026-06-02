@@ -181,7 +181,7 @@ export default function PortalPromo() {
             {/* CTA */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <a href={PORTAL_PROMO.href} target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-bold transition-transform duration-150 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-bold press"
                 style={{ background:'#E37200', color:'#ffffff', fontSize:'16px', boxShadow:'0 6px 18px rgba(227,114,0,0.25)' }}>
                 <ExternalLink size={17} aria-hidden="true" /> {PORTAL_PROMO.cta}
                 <ArrowRight size={17} aria-hidden="true" />

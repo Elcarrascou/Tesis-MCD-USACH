@@ -68,7 +68,7 @@ export default function Nav() {
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(0,154,147,0.3)' }}>
             {pageTabs.map(t => (
               <NavLink key={t.to} to={t.to} end={t.end}
-                className="text-[13px] px-4 py-1.5 rounded-lg transition-all duration-150 font-bold"
+                className="text-[13px] px-4 py-1.5 rounded-lg font-bold press"
                 style={({ isActive }) => isActive
                   ? { background: '#009A93', color: '#ffffff' }
                   : { color: 'rgba(255,255,255,0.5)' }}>
@@ -79,7 +79,7 @@ export default function Nav() {
 
           {/* CTA: abre el portal operacional en ventana nueva */}
           <a href="/portal" target="_blank" rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-[13px] px-4 py-2 rounded-lg font-bold transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            className="flex items-center gap-1.5 text-[13px] px-4 py-2 rounded-lg font-bold press"
             style={{ background: '#E37200', color: '#ffffff' }}
             onMouseEnter={e => (e.currentTarget.style.background = '#f5a050')}
             onMouseLeave={e => (e.currentTarget.style.background = '#E37200')}>

@@ -54,14 +54,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           return (
             <div key={t.id}
               role="status"
-              className="pointer-events-auto rounded-xl overflow-hidden card-shadow"
+              className="pointer-events-auto rounded-xl overflow-hidden toast-item"
               style={{
                 background: '#ffffff',
                 border: `1px solid ${color}40`,
                 borderLeft: `4px solid ${color}`,
                 minWidth: 280,
                 maxWidth: 380,
-                animation: 'toast-in 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                boxShadow: 'var(--shadow-lg)',
               }}>
               <div className="flex items-start gap-3 px-4 py-3">
                 {t.icon && <span className="text-[20px] flex-shrink-0" aria-hidden="true">{t.icon}</span>}
@@ -70,7 +70,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   {t.body && <div className="text-[12px] mt-1 leading-snug" style={{ color: '#4f4f4f' }}>{t.body}</div>}
                 </div>
                 <button type="button" onClick={() => dismiss(t.id)} aria-label="Cerrar notificación"
-                  className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-md text-[14px] font-bold hover:bg-black/5 focus-visible:outline focus-visible:outline-2"
+                  className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-md text-[14px] font-bold hover:bg-black/5 press"
                   style={{ color: '#4f4f4f' }}>×</button>
               </div>
             </div>
@@ -78,9 +78,16 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         })}
       </div>
       <style>{`
-        @keyframes toast-in { from { opacity: 0; transform: translateX(14px) } to { opacity: 1; transform: none } }
+        /* Entrada del toast: ease-out custom, transform + opacity solo */
+        .toast-item {
+          animation: toast-enter 320ms var(--ease-out) both;
+        }
+        @keyframes toast-enter {
+          from { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(2px); }
+          to   { opacity: 1; transform: translateY(0)   scale(1);    filter: blur(0); }
+        }
         @media (prefers-reduced-motion: reduce) {
-          [role="status"] { animation: none !important; }
+          .toast-item { animation: none !important; }
         }
       `}</style>
     </ToastContext.Provider>
