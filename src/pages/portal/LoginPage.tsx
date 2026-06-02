@@ -34,8 +34,8 @@ export default function LoginPage() {
         style={{ background: 'linear-gradient(90deg,#009A93,#1ab0a8,#E37200,#1ab0a8,#009A93)' }} />
 
       <div className="w-full max-w-md">
-        {/* Brand */}
-        <div className="flex flex-col items-center mb-8">
+        {/* Brand → home del sitio */}
+        <Link to="/" aria-label="Ir al inicio" className="flex flex-col items-center mb-8 rounded-lg press p-2 -m-2">
           <img src={logoUsach} alt="USACH" className="h-12 w-auto object-contain mb-4" />
           <div className="font-bold text-[13px] tracking-[0.1em] uppercase" style={{ color: '#009A93' }}>
             Portal de Gestión de Portafolio
@@ -43,7 +43,7 @@ export default function LoginPage() {
           <div className="text-[12px] mt-1" style={{ color: 'rgba(255,255,255,0.45)' }}>
             Magíster en Ciencia de Datos · USACH
           </div>
-        </div>
+        </Link>
 
         {/* Card */}
         <div className="rounded-[18px] overflow-hidden card-shadow" style={{ background: '#ffffff' }}>
@@ -61,7 +61,7 @@ export default function LoginPage() {
                 value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="demo@tesis-mcd.cl"
                 spellCheck={false}
-                className="w-full px-4 py-2.5 rounded-xl text-[15px] outline-none transition-colors focus:border-[#009A93]"
+                className="w-full px-4 py-3 rounded-xl text-[15px] outline-none transition-colors focus:border-[#009A93]"
                 style={{ border: '1.5px solid rgba(0,154,147,0.25)', color: '#333333' }} />
             </div>
 
@@ -72,7 +72,7 @@ export default function LoginPage() {
               <input id="password" type="password" name="password" autoComplete="current-password" required
                 value={password} onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-2.5 rounded-xl text-[15px] outline-none transition-colors focus:border-[#009A93]"
+                className="w-full px-4 py-3 rounded-xl text-[15px] outline-none transition-colors focus:border-[#009A93]"
                 style={{ border: '1.5px solid rgba(0,154,147,0.25)', color: '#333333' }} />
             </div>
 

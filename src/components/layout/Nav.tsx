@@ -36,8 +36,8 @@ export default function Nav() {
       <nav className="fixed top-1 left-0 right-0 z-[100] h-[62px] flex items-center px-6 justify-between"
         style={{ background: '#333333', borderBottom: '2px solid #009A93', boxShadow: '0 2px 16px rgba(0,0,0,0.2)' }}>
 
-        {/* Logo */}
-        <div className="flex items-center gap-3.5">
+        {/* Logo → home */}
+        <NavLink to="/" end aria-label="Ir al inicio" className="flex items-center gap-3.5 rounded-lg press p-1 -m-1">
           <img src={logoUsach} alt="USACH" className="h-9 w-auto object-contain" />
           <div className="hidden sm:flex flex-col gap-0.5 border-l border-white/20 pl-3.5">
             <span className="text-[13px] font-bold tracking-[0.08em] uppercase leading-none" style={{ color: '#009A93' }}>
@@ -47,7 +47,7 @@ export default function Nav() {
               Proyecto de Título · 2026
             </span>
           </div>
-        </div>
+        </NavLink>
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-5">
@@ -89,8 +89,8 @@ export default function Nav() {
 
         <button
           type="button"
-          className="lg:hidden p-1 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ color: 'rgba(255,255,255,0.6)' }}
+          className="lg:hidden p-2.5 rounded-md press"
+          style={{ color: 'rgba(255,255,255,0.7)' }}
           onClick={() => setOpen(!open)}
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}

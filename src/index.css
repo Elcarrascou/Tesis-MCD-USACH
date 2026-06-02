@@ -31,8 +31,17 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Safe areas iOS (notch) */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
   p { font-size: 21px; }
+
+  /* Touch-action / tap highlight para botones e interactivos */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
 
   /* Focus default: solo focus-visible, nunca focus a secas */
   :focus { outline: none; }

@@ -27,15 +27,16 @@ interface SidebarProps {
 function Sidebar({ email, onSignOut, onNavigate, realtimeStatus }: SidebarProps) {
   return (
     <>
-      {/* Brand */}
+      {/* Brand → portal home */}
       <div className="flex flex-col gap-3 px-5 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="flex items-center gap-3">
+        <NavLink to="/portal" end onClick={onNavigate} aria-label="Ir al inicio del portal"
+          className="flex items-center gap-3 rounded-lg press p-1 -m-1">
           <img src={logoUsach} alt="USACH" className="h-8 w-auto object-contain" />
           <div className="border-l border-white/20 pl-3">
             <div className="font-bold text-[12px] tracking-[0.06em] uppercase leading-none" style={{ color: '#009A93' }}>Portal IA</div>
             <div className="text-[10px] mt-1 leading-none" style={{ color: 'rgba(255,255,255,0.4)' }}>Gestión de Portafolio</div>
           </div>
-        </div>
+        </NavLink>
         <RealtimeBadge status={realtimeStatus} />
       </div>
 
@@ -100,12 +101,13 @@ export default function PortalLayout() {
       {/* Topbar mobile */}
       <div className="lg:hidden fixed top-1 left-0 right-0 h-14 z-50 flex items-center justify-between px-4"
         style={{ background: '#333333', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <div className="flex items-center gap-2">
+        <NavLink to="/portal" end aria-label="Ir al inicio del portal"
+          className="flex items-center gap-2 rounded-lg press p-1 -m-1">
           <img src={logoUsach} alt="USACH" className="h-7 w-auto object-contain" />
           <span className="font-bold text-[12px] uppercase tracking-[0.06em]" style={{ color: '#009A93' }}>Portal IA</span>
-        </div>
+        </NavLink>
         <button type="button" onClick={() => setOpen(!open)} aria-label={open ? 'Cerrar menú' : 'Abrir menú'} aria-expanded={open}
-          className="p-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          className="p-2.5 rounded-md press" style={{ color: 'rgba(255,255,255,0.7)' }}>
           {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
         </button>
       </div>
