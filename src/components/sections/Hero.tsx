@@ -1,4 +1,4 @@
-﻿import { SITE, HERO_STATS } from '../../data/site'
+import { SITE, HERO_STATS } from '../../data/site'
 
 export default function Hero() {
   return (
@@ -12,35 +12,48 @@ export default function Hero() {
 
       <div className="wrap relative z-10 w-full">
         {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2.5 mb-8 rounded-full px-4 sm:px-5 py-2 font-mono text-[12px] sm:text-[13px] tracking-[0.05em] font-bold"
-          style={{ background: 'rgba(0,154,147,0.08)', border: '1px solid rgba(0,154,147,0.3)', color: '#009A93' }}>
+        <div className="hero-reveal inline-flex items-center gap-2.5 mb-8 rounded-full px-4 sm:px-5 py-2 font-mono text-[12px] sm:text-[13px] tracking-[0.05em] font-bold"
+          style={{ background: 'rgba(0,154,147,0.08)', border: '1px solid rgba(0,154,147,0.3)', color: '#009A93', animationDelay: '0ms' }}>
           <div className="w-2 h-2 rounded-full animate-blink flex-shrink-0" style={{ background: '#009A93' }} />
           Proyecto de Título — MCD {SITE.year}
         </div>
 
         {/* Title */}
-        <h1 className="font-sans font-black leading-[1.05] tracking-tight mb-6"
-          style={{ fontSize: 'clamp(36px,6vw,76px)', color: '#333333' }}>
+        <h1 className="hero-reveal font-sans font-black leading-[1.05] tracking-tight mb-6"
+          style={{ fontSize: 'clamp(36px,6vw,76px)', color: '#333333', animationDelay: '60ms' }}>
           {SITE.heroTitle[0]}<br />
           <span style={{ color: '#009A93' }}>{SITE.heroTitle[1]}</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="leading-[1.8] max-w-[600px] mb-12" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
+        <p className="hero-reveal leading-[1.8] max-w-[600px] mb-12" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f', animationDelay: '120ms' }}>
           {SITE.heroSubtitle}
         </p>
 
         {/* Stats */}
         <div className="flex gap-8 sm:gap-12 flex-wrap pt-8 sm:pt-10" style={{ borderTop: '2px solid rgba(0,154,147,0.15)' }}>
-          {HERO_STATS.map(s => (
-            <div key={s.label}>
+          {HERO_STATS.map((s, i) => (
+            <div key={s.label} className="hero-reveal" style={{ animationDelay: `${180 + i * 60}ms` }}>
               <div className="font-sans font-black tracking-tight leading-none tabular-nums" style={{ fontSize: 'clamp(28px,4vw,42px)', color: s.color }}>{s.val}</div>
               <div className="text-[12px] sm:text-[13px] tracking-[0.05em] mt-1 font-mono font-bold uppercase" style={{ color: '#4f4f4f' }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        .hero-reveal {
+          opacity: 0;
+          transform: translateY(12px);
+          animation: hero-in 600ms var(--ease-out) forwards;
+        }
+        @keyframes hero-in {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-reveal { animation: none; opacity: 1; transform: none; }
+        }
+      `}</style>
     </section>
   )
 }
-

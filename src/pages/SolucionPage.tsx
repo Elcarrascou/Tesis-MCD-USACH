@@ -197,9 +197,10 @@ export default function SolucionPage() {
         </div>
 
         {/* ── Info panel ── */}
-        <div className="rounded-[18px] overflow-hidden transition-all duration-300 card-shadow"
+        <div className="rounded-[18px] overflow-hidden card-shadow"
           style={{
             border: selNode ? `2px solid ${selNode.color}` : '1px solid rgba(0,154,147,0.15)',
+            transition: 'border-color 280ms var(--ease-out)',
             background: '#ffffff',
             minHeight: 100,
           }}>

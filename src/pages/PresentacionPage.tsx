@@ -40,7 +40,7 @@ export default function PresentacionPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
           {SLIDES.map(slide => (
             <div key={slide.num}
-              className="aspect-[16/9] rounded-[12px] flex flex-col items-center justify-center gap-2 cursor-default transition-all duration-200 hover:-translate-y-0.5 card-shadow"
+              className="aspect-[16/9] rounded-[12px] flex flex-col items-center justify-center gap-2 cursor-default card-shadow card-press"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${slide.color}` }}>
               <div className="font-mono text-[11px] sm:text-[12px] font-bold" style={{ color: slide.color }}>{slide.num}</div>
               <div className="text-center px-2 sm:px-3 leading-[1.3] font-semibold" style={{ fontSize: '12px', color: '#4f4f4f' }}>{slide.title}</div>

@@ -45,7 +45,7 @@ export default function Overview() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {APP_VIEWS.map(v => (
             <div key={v.title}
-              className="rounded-[16px] p-5 sm:p-6 transition-all duration-200 hover:-translate-y-0.5 card-shadow"
+              className="rounded-[16px] p-5 sm:p-6 card-shadow card-press"
               style={{
                 background: '#ffffff',
                 border: v.special ? '2px solid rgba(0,154,147,0.3)' : '1px solid rgba(0,154,147,0.12)',

@@ -49,10 +49,10 @@ export default function AnteproyectoPage() {
               ))}
             </div>
 
-            <button disabled
+            <button type="button" disabled
               className="mt-7 w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold opacity-40 cursor-not-allowed"
               style={{ fontSize: '15px', background: '#009A93', color: 'white' }}>
-              <Download size={17} />
+              <Download size={17} aria-hidden="true" />
               Descargar PDF
             </button>
             <p className="text-center mt-2.5 font-mono font-bold" style={{ fontSize: '12px', color: '#4f4f4f' }}>Disponible próximamente</p>

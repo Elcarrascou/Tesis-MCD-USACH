@@ -1,5 +1,6 @@
 import { ExternalLink, ArrowRight } from 'lucide-react'
 import { PORTAL_PROMO } from '../../data/site'
+import Reveal from '../ui/Reveal'
 
 // ─── SVG mock del portal: dashboard con KPIs + donut + barras ───
 function DashboardMock() {
@@ -201,7 +202,7 @@ export default function PortalPromo() {
           </div>
 
           {/* ── Right: SVG dashboard mock ── */}
-          <div className="relative">
+          <Reveal className="relative" delay={80}>
             <div className="rounded-[20px] overflow-hidden card-shadow"
               style={{ border:'1px solid rgba(0,154,147,0.2)', background:'#ffffff' }}>
               {/* Browser-like top bar */}
@@ -221,7 +222,7 @@ export default function PortalPromo() {
               style={{ background:'#1a7a3c', color:'#ffffff', boxShadow:'0 4px 14px rgba(26,122,60,0.35)' }}>
               ● en vivo
             </div>
-          </div>
+          </Reveal>
 
         </div>
       </div>

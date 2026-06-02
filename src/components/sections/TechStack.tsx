@@ -54,7 +54,7 @@ export default function TechStack() {
           <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Tablas principales — Supabase</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
             {DB_TABLES.map(t => (
-              <div key={t.name} className="rounded-[14px] p-4 sm:p-5 card-shadow transition-all hover:-translate-y-0.5"
+              <div key={t.name} className="rounded-[14px] p-4 sm:p-5 card-shadow card-press"
                 style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderTop: `3px solid ${t.color}` }}>
                 <div className="font-mono text-[13px] font-bold mb-2" style={{ color: t.color }}>{t.name}</div>
                 <div className="font-medium" style={{ fontSize: '13px', color: '#4f4f4f' }}>{t.desc}</div>

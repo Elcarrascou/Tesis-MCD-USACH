@@ -55,8 +55,8 @@ export default function Nav() {
             <div className="flex gap-0.5">
               {sectionLinks.map(l => (
                 <a key={l.href} href={l.href}
-                  className="text-[13px] px-3 py-1.5 rounded-md transition-all duration-150 font-semibold"
-                  style={{ color: 'rgba(255,255,255,0.5)' }}
+                  className="text-[13px] px-3 py-1.5 rounded-md font-semibold"
+                  style={{ color: 'rgba(255,255,255,0.5)', transition: 'background-color 150ms ease, color 150ms ease' }}
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,154,147,0.18)'; e.currentTarget.style.color = '#1ab0a8' }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}>
                   {l.label}
@@ -105,7 +105,7 @@ export default function Nav() {
           style={{ background: '#333333', borderBottom: '2px solid #009A93' }}>
           {pageTabs.map(t => (
             <NavLink key={t.to} to={t.to} end={t.end} onClick={() => setOpen(false)}
-              className="text-[14px] px-3 py-2.5 rounded-lg transition-all font-bold"
+              className="text-[14px] px-3 py-2.5 rounded-lg font-bold press"
               style={({ isActive }) => isActive
                 ? { background: '#009A93', color: '#ffffff' }
                 : { color: 'rgba(255,255,255,0.6)' }}>
@@ -122,7 +122,7 @@ export default function Nav() {
               <div className="my-1.5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
               {sectionLinks.map(l => (
                 <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-                  className="text-[14px] px-3 py-2 rounded-lg font-semibold transition-all"
+                  className="text-[14px] px-3 py-2 rounded-lg font-semibold press"
                   style={{ color: 'rgba(255,255,255,0.55)' }}>
                   {l.label}
                 </a>

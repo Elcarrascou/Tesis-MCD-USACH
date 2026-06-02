@@ -28,7 +28,7 @@ export default function MLModels() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           {ML_MODELS.map(m => (
             <div key={m.num}
-              className="rounded-[16px] p-6 sm:p-7 transition-all duration-200 hover:-translate-y-0.5 card-shadow"
+              className="rounded-[16px] p-6 sm:p-7 card-shadow card-press"
               style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.1)', borderTop: `3px solid ${m.color}` }}>
               <div className="font-sans font-black leading-none mb-2" style={{ fontSize: '52px', color: 'rgba(0,154,147,0.07)' }}>{m.num}</div>
               <div className="font-bold mb-0.5" style={{ fontSize: '19px', color: m.color }}>{m.name}</div>
