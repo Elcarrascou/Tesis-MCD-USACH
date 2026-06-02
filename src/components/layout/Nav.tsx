@@ -99,38 +99,47 @@ export default function Nav() {
         </button>
       </nav>
 
-      {/* Mobile menu */}
-      {open && (
-        <div id="mobile-menu" className="fixed top-[64px] left-0 right-0 z-[99] p-4 flex flex-col gap-1.5 lg:hidden"
-          style={{ background: '#333333', borderBottom: '2px solid #009A93' }}>
-          {pageTabs.map(t => (
-            <NavLink key={t.to} to={t.to} end={t.end} onClick={() => setOpen(false)}
-              className="text-[14px] px-3 py-2.5 rounded-lg font-bold press"
-              style={({ isActive }) => isActive
-                ? { background: '#009A93', color: '#ffffff' }
-                : { color: 'rgba(255,255,255,0.6)' }}>
-              {t.label}
-            </NavLink>
-          ))}
-          <a href="/portal" target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)}
-            className="flex items-center gap-1.5 text-[14px] px-3 py-2.5 rounded-lg font-bold"
-            style={{ background: '#E37200', color: '#ffffff' }}>
-            <ExternalLink size={15} aria-hidden="true" /> Portal IA
-          </a>
-          {isHome && (
-            <>
-              <div className="my-1.5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
-              {sectionLinks.map(l => (
-                <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-                  className="text-[14px] px-3 py-2 rounded-lg font-semibold press"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}>
-                  {l.label}
-                </a>
-              ))}
-            </>
-          )}
-        </div>
-      )}
+      {/* Mobile menu — siempre en DOM, animado con CSS (.mobile-menu / data-open) */}
+      <div id="mobile-menu"
+        role="navigation"
+        aria-label="Menú de navegación móvil"
+        aria-hidden={!open}
+        data-open={open}
+        className="mobile-menu fixed top-[64px] left-0 right-0 z-[99] p-4 flex flex-col gap-1.5 lg:hidden"
+        style={{ background: '#333333', borderBottom: '2px solid #009A93' }}>
+        {pageTabs.map(t => (
+          <NavLink key={t.to} to={t.to} end={t.end}
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            className="text-[14px] px-3 py-2.5 rounded-lg font-bold press"
+            style={({ isActive }) => isActive
+              ? { background: '#009A93', color: '#ffffff' }
+              : { color: 'rgba(255,255,255,0.6)' }}>
+            {t.label}
+          </NavLink>
+        ))}
+        <a href="/portal" target="_blank" rel="noopener noreferrer"
+          tabIndex={open ? 0 : -1}
+          onClick={() => setOpen(false)}
+          className="flex items-center gap-1.5 text-[14px] px-3 py-2.5 rounded-lg font-bold press"
+          style={{ background: '#E37200', color: '#ffffff' }}>
+          <ExternalLink size={15} aria-hidden="true" /> Portal IA
+        </a>
+        {isHome && (
+          <>
+            <div className="my-1.5 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
+            {sectionLinks.map(l => (
+              <a key={l.href} href={l.href}
+                tabIndex={open ? 0 : -1}
+                onClick={() => setOpen(false)}
+                className="text-[14px] px-3 py-2 rounded-lg font-semibold press"
+                style={{ color: 'rgba(255,255,255,0.55)' }}>
+                {l.label}
+              </a>
+            ))}
+          </>
+        )}
+      </div>
     </>
   )
 }

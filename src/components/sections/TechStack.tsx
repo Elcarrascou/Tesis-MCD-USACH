@@ -1,13 +1,16 @@
 ﻿import { STACK_ROWS, DB_TABLES, COST_COLORS } from '../../data/stack'
+import Reveal from '../ui/Reveal'
 
 export default function TechStack() {
   return (
     <section id="stack" className="py-20 sm:py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
       <div className="wrap">
-        <div className="section-tag">05 — Stack tecnológico</div>
-        <h2 className="font-sans font-black mb-8 sm:mb-10" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
-          Tecnologías del proyecto
-        </h2>
+        <Reveal><div className="section-tag">05 — Stack tecnológico</div></Reveal>
+        <Reveal delay={50}>
+          <h2 className="font-sans font-black mb-8 sm:mb-10" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
+            Tecnologías del proyecto
+          </h2>
+        </Reveal>
 
         {/* Table — scroll on mobile, 3 cols on desktop */}
         <div className="rounded-[16px] overflow-hidden card-shadow" style={{ border: '1px solid rgba(0,154,147,0.18)' }}>
@@ -53,12 +56,14 @@ export default function TechStack() {
         <div className="mt-8 sm:mt-9">
           <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Tablas principales — Supabase</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            {DB_TABLES.map(t => (
-              <div key={t.name} className="rounded-[14px] p-4 sm:p-5 card-shadow card-press"
-                style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderTop: `3px solid ${t.color}` }}>
-                <div className="font-mono text-[13px] font-bold mb-2" style={{ color: t.color }}>{t.name}</div>
-                <div className="font-medium" style={{ fontSize: '13px', color: '#4f4f4f' }}>{t.desc}</div>
-              </div>
+            {DB_TABLES.map((t, i) => (
+              <Reveal key={t.name} delay={i * 50}>
+                <div className="h-full rounded-[14px] p-4 sm:p-5 card-shadow card-press"
+                  style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.15)', borderTop: `3px solid ${t.color}` }}>
+                  <div className="font-mono text-[13px] font-bold mb-2" style={{ color: t.color }}>{t.name}</div>
+                  <div className="font-medium" style={{ fontSize: '13px', color: '#4f4f4f' }}>{t.desc}</div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>

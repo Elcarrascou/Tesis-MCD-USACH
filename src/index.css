@@ -140,4 +140,45 @@
     transform: scale(0.995);
     transition-duration: 80ms;
   }
+
+  /* ────────────────────────────────────────────────────
+     Mobile nav — slide-down / fade-in (Emil: no jarring)
+     visibility delay trick: oculta del AT al cerrar
+     ──────────────────────────────────────────────────── */
+  .mobile-menu {
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    visibility: hidden;
+    /* cierre: visibility oculta DESPUÉS de la animación */
+    transition: opacity 210ms var(--ease-out), transform 210ms var(--ease-out), visibility 0ms 210ms;
+  }
+  .mobile-menu[data-open="true"] {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    visibility: visible;
+    /* apertura: visibility visible de inmediato */
+    transition: opacity 210ms var(--ease-out), transform 210ms var(--ease-out), visibility 0ms 0ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu, .mobile-menu[data-open="true"] { transition: none; }
+  }
+
+  /* ────────────────────────────────────────────────────
+     ML model metric bars — grow from left on mount
+     Emil: transform+opacity únicamente (no width, no layout)
+     transform-origin: left center → crece desde el inicio
+     ──────────────────────────────────────────────────── */
+  .bar-fill {
+    transform-origin: left center;
+    animation: bar-grow 700ms var(--ease-out) 350ms both;
+  }
+  @keyframes bar-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bar-fill { animation: none !important; }
+  }
 }

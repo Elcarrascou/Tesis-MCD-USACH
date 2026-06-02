@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ZoomIn } from 'lucide-react'
 import diagramaArquitectura from '../../assets/diagrama-arquitectura.png'
 import Lightbox from '../ui/Lightbox'
+import Reveal from '../ui/Reveal'
 import { ARCH_LAYERS, FLOW_STEPS } from '../../data/architecture'
 
 export default function Architecture() {
@@ -10,14 +11,18 @@ export default function Architecture() {
   return (
     <section id="architecture" className="py-20 sm:py-24" style={{ background: '#ffffff', borderBottom: '1px solid rgba(0,154,147,0.12)' }}>
       <div className="wrap">
-        <div className="section-tag">02 — Arquitectura</div>
-        <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
-          Cómo fluye el sistema
-        </h2>
-        <p className="leading-[1.8] max-w-[700px] mb-10" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
-          El sistema integra datos de mercado, modelos predictivos y un agente de IA autónomo que
-          toma decisiones de rebalanceo y las comunica al usuario vía chatbot y aplicación web.
-        </p>
+        <Reveal><div className="section-tag">02 — Arquitectura</div></Reveal>
+        <Reveal delay={50}>
+          <h2 className="font-sans font-black mb-4" style={{ fontSize: 'clamp(26px,4vw,44px)', color: '#333333' }}>
+            Cómo fluye el sistema
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <p className="leading-[1.8] max-w-[700px] mb-10" style={{ fontSize: 'clamp(16px,2vw,18px)', color: '#4f4f4f' }}>
+            El sistema integra datos de mercado, modelos predictivos y un agente de IA autónomo que
+            toma decisiones de rebalanceo y las comunica al usuario vía chatbot y aplicación web.
+          </p>
+        </Reveal>
 
         {/* Diagrama principal — clicleable */}
         <div className="rounded-[18px] overflow-hidden card-shadow mb-10"
@@ -57,18 +62,20 @@ export default function Architecture() {
         </div>
 
         {/* Resumen de capas */}
-        <h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Capas del sistema</h3>
+        <Reveal><h3 className="font-bold mb-5" style={{ fontSize: '20px', color: '#333333' }}>Capas del sistema</h3></Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-12">
           {ARCH_LAYERS.map((l, i) => (
-            <div key={i} className="rounded-[14px] p-4 sm:p-5 card-shadow"
-              style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${l.color}` }}>
-              <div className="font-bold mb-2.5" style={{ fontSize: '16px', color: l.color }}>{l.label}</div>
-              <ul className="space-y-1.5">
-                {l.items.map(item => (
-                  <li key={item} className="font-medium leading-[1.5]" style={{ fontSize: '15px', color: '#4f4f4f' }}>· {item}</li>
-                ))}
-              </ul>
-            </div>
+            <Reveal key={i} delay={i * 50}>
+              <div className="h-full rounded-[14px] p-4 sm:p-5 card-shadow"
+                style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.12)', borderTop: `3px solid ${l.color}` }}>
+                <div className="font-bold mb-2.5" style={{ fontSize: '16px', color: l.color }}>{l.label}</div>
+                <ul className="space-y-1.5">
+                  {l.items.map(item => (
+                    <li key={item} className="font-medium leading-[1.5]" style={{ fontSize: '15px', color: '#4f4f4f' }}>· {item}</li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           ))}
         </div>
 
