@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { LayoutDashboard, ArrowLeftRight, BrainCircuit, TrendingUp, FlaskConical, BarChart3, LogOut, Menu, X, ExternalLink } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
+import { useRealtimeStatus } from '../../context/RealtimeContext'
+import RealtimeBadge from './RealtimeBadge'
 import logoUsach from '../../assets/logoUsach.webp'
 
 const NAV = [
@@ -19,18 +21,22 @@ interface SidebarProps {
   email: string | undefined
   onSignOut: () => void
   onNavigate: () => void
+  realtimeStatus: ReturnType<typeof useRealtimeStatus>['aggregate']
 }
 
-function Sidebar({ email, onSignOut, onNavigate }: SidebarProps) {
+function Sidebar({ email, onSignOut, onNavigate, realtimeStatus }: SidebarProps) {
   return (
     <>
       {/* Brand */}
-      <div className="flex items-center gap-3 px-5 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <img src={logoUsach} alt="USACH" className="h-8 w-auto object-contain" />
-        <div className="border-l border-white/20 pl-3">
-          <div className="font-bold text-[12px] tracking-[0.06em] uppercase leading-none" style={{ color: '#009A93' }}>Portal IA</div>
-          <div className="text-[10px] mt-1 leading-none" style={{ color: 'rgba(255,255,255,0.4)' }}>Gestión de Portafolio</div>
+      <div className="flex flex-col gap-3 px-5 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+        <div className="flex items-center gap-3">
+          <img src={logoUsach} alt="USACH" className="h-8 w-auto object-contain" />
+          <div className="border-l border-white/20 pl-3">
+            <div className="font-bold text-[12px] tracking-[0.06em] uppercase leading-none" style={{ color: '#009A93' }}>Portal IA</div>
+            <div className="text-[10px] mt-1 leading-none" style={{ color: 'rgba(255,255,255,0.4)' }}>Gestión de Portafolio</div>
+          </div>
         </div>
+        <RealtimeBadge status={realtimeStatus} />
       </div>
 
       {/* Nav */}
@@ -71,6 +77,7 @@ function Sidebar({ email, onSignOut, onNavigate }: SidebarProps) {
 
 export default function PortalLayout() {
   const { user, signOut } = useAuth()
+  const { aggregate } = useRealtimeStatus()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
@@ -87,7 +94,7 @@ export default function PortalLayout() {
 
       {/* Sidebar desktop */}
       <aside className="hidden lg:flex fixed top-1 left-0 bottom-0 w-64 flex-col z-50" style={{ background: '#333333' }}>
-        <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} />
+        <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} realtimeStatus={aggregate} />
       </aside>
 
       {/* Topbar mobile */}
@@ -108,7 +115,7 @@ export default function PortalLayout() {
         <div className="lg:hidden fixed inset-0 z-[55]" onClick={() => setOpen(false)}>
           <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.5)' }} />
           <aside className="absolute top-0 left-0 bottom-0 w-64 flex flex-col" style={{ background: '#333333' }} onClick={e => e.stopPropagation()}>
-            <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} />
+            <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} realtimeStatus={aggregate} />
           </aside>
         </div>
       )}

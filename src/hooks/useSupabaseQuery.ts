@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 // ════════════════════════════════════════════════════════════
 // Hook genérico de fetching con estados loading / error / data.
 // Patrón stale-while-revalidate: no llama setState de forma
 // síncrona dentro del effect (regla react-hooks/set-state-in-effect).
-//   const { data, loading, error } = useSupabaseQuery(getPortfolio, [])
+//   const { data, loading, error, setData } = useSupabaseQuery(getPortfolio, [])
+// setData se exponen para mutaciones optimistas (ej. Realtime).
 // ════════════════════════════════════════════════════════════
 
 interface QueryState<T> {
@@ -13,10 +14,14 @@ interface QueryState<T> {
   error: Error | null
 }
 
+interface UseSupabaseQueryReturn<T> extends QueryState<T> {
+  setData: (updater: T | ((prev: T | null) => T | null)) => void
+}
+
 export function useSupabaseQuery<T>(
   queryFn: () => Promise<T>,
   deps: unknown[] = [],
-): QueryState<T> {
+): UseSupabaseQueryReturn<T> {
   const [state, setState] = useState<QueryState<T>>({ data: null, loading: true, error: null })
 
   useEffect(() => {
@@ -30,5 +35,12 @@ export function useSupabaseQuery<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps)
 
-  return state
+  const setData = useCallback((updater: T | ((prev: T | null) => T | null)) => {
+    setState(prev => ({
+      ...prev,
+      data: typeof updater === 'function' ? (updater as (p: T | null) => T | null)(prev.data) : updater,
+    }))
+  }, [])
+
+  return { ...state, setData }
 }

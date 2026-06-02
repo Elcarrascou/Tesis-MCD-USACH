@@ -1,5 +1,9 @@
+import { useState } from 'react'
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
+import { useRealtimeChannel } from '../../hooks/useRealtimeChannel'
+import { useToast } from '../../context/ToastContext'
 import { getMlPredictions } from '../../lib/queries'
+import type { MlPrediction } from '../../lib/queries'
 import { fmtDateTime, fmtPct, fmtUSD } from '../../lib/format'
 import { PageHeader, Card, QueryState, Badge } from '../../components/portal/ui'
 
@@ -11,8 +15,23 @@ const MODEL_META: Record<string, { label: string; color: string }> = {
 }
 
 export default function PortalModelos() {
-  const { data, loading, error } = useSupabaseQuery(() => getMlPredictions({ limit: 100 }), [])
+  const { data, loading, error, setData } = useSupabaseQuery(() => getMlPredictions({ limit: 100 }), [])
   const rows = data ?? []
+  const [highlightId, setHighlightId] = useState<number | null>(null)
+  const { push } = useToast()
+
+  useRealtimeChannel('ml_predictions', (row) => {
+    setData((prev: MlPrediction[] | null) => [row, ...(prev ?? [])])
+    setHighlightId(row.id)
+    const meta = MODEL_META[row.model] ?? { label: row.model, color: '#009A93' }
+    push({
+      icon: '🔬',
+      title: `${meta.label} → ${row.symbol}`,
+      body: row.signal ? `Señal: ${row.signal}` : row.predicted_value != null ? `Valor: ${row.predicted_value}` : undefined,
+      color: meta.color,
+    })
+    setTimeout(() => setHighlightId(null), 2400)
+  })
 
   return (
     <>
@@ -23,8 +42,13 @@ export default function PortalModelos() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {rows.map(p => {
             const meta = MODEL_META[p.model] ?? { label: p.model, color: '#009A93' }
+            const isNew = p.id === highlightId
             return (
-              <Card key={p.id} className="p-5" style={{ borderTop: `3px solid ${meta.color}` }}>
+              <Card key={p.id} className="p-5"
+                style={{
+                  borderTop: `3px solid ${meta.color}`,
+                  animation: isNew ? 'rt-card-flash 2.4s ease-out' : undefined,
+                }}>
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   <span className="font-bold text-[15px]" style={{ color: meta.color }}>{meta.label}</span>
                   <span className="font-bold text-[15px]" style={{ color: '#333333' }}>{p.symbol}</span>
@@ -65,6 +89,15 @@ export default function PortalModelos() {
           })}
         </div>
       </QueryState>
+
+      <style>{`
+        @keyframes rt-card-flash {
+          0%   { box-shadow: 0 0 0 0 rgba(0,154,147,0); transform: translateY(-4px); }
+          20%  { box-shadow: 0 0 0 4px rgba(0,154,147,0.35); transform: translateY(0); }
+          100% { box-shadow: 0 0 0 0 rgba(0,154,147,0); }
+        }
+        @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+      `}</style>
     </>
   )
 }

@@ -1,6 +1,9 @@
 import { useMemo } from 'react'
 import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
+import { useRealtimeChannel } from '../../hooks/useRealtimeChannel'
+import { useToast } from '../../context/ToastContext'
 import { getPortfolio } from '../../lib/queries'
+import type { Portfolio } from '../../lib/queries'
 import { fmtUSD, fmtNum, fmtPct } from '../../lib/format'
 import { PageHeader, Card, QueryState } from '../../components/portal/ui'
 import { DonutChart } from '../../components/portal/charts'
@@ -8,8 +11,32 @@ import { DonutChart } from '../../components/portal/charts'
 const EMPTY_ROWS: Awaited<ReturnType<typeof getPortfolio>> = []
 
 export default function PortalDashboard() {
-  const { data, loading, error } = useSupabaseQuery(getPortfolio, [])
+  const { data, loading, error, setData } = useSupabaseQuery(getPortfolio, [])
   const rows = data ?? EMPTY_ROWS
+  const { push } = useToast()
+
+  // Realtime: nueva posición ingresa al portafolio
+  useRealtimeChannel('portfolio', (row) => {
+    setData((prev: Portfolio[] | null) => {
+      const arr = prev ?? []
+      // Si ya existe ese symbol, reemplaza; si no, añade al inicio
+      const idx = arr.findIndex(p => p.symbol === row.symbol)
+      if (idx >= 0) return arr.map((p, i) => i === idx ? row : p)
+      return [row, ...arr]
+    })
+    push({ icon: '📊', title: `Posición actualizada: ${row.symbol}`, body: `Valor: ${fmtUSD(row.market_value)}`, color: '#009A93' })
+  })
+
+  // Realtime: nueva orden ejecutada en Alpaca
+  useRealtimeChannel('movements', (row) => {
+    const dir = row.side === 'buy' ? 'compra' : 'venta'
+    push({
+      icon: row.side === 'buy' ? '🟢' : '🔴',
+      title: `Orden ${dir}: ${row.symbol}`,
+      body: `${fmtNum(row.quantity)} @ ${fmtUSD(row.price)} = ${fmtUSD(row.amount)}`,
+      color: row.side === 'buy' ? '#1a7a3c' : '#c0392b',
+    })
+  })
 
   const totalValue = rows.reduce((s, r) => s + (r.market_value ?? 0), 0)
   const totalPnl   = rows.reduce((s, r) => s + (r.unrealized_pnl ?? 0), 0)
