@@ -60,6 +60,43 @@ export async function getMlPredictions(opts: { model?: string; symbol?: string; 
   return data ?? []
 }
 
+/** Histórico de predicciones para un (symbol, model) específico — para sparkline. */
+export async function getPredictionHistory(symbol: string, model: string, limit = 30): Promise<MlPrediction[]> {
+  const { data, error } = await supabase
+    .from('ml_predictions')
+    .select('*')
+    .eq('symbol', symbol)
+    .eq('model', model)
+    .order('predicted_at', { ascending: true })
+    .limit(limit)
+  if (error) throw error
+  return data ?? []
+}
+
+/** Predicciones de TODOS los modelos para un símbolo (consenso multi-modelo). */
+export async function getPredictionsBySymbol(symbol: string, limit = 50): Promise<MlPrediction[]> {
+  const { data, error } = await supabase
+    .from('ml_predictions')
+    .select('*')
+    .eq('symbol', symbol)
+    .order('predicted_at', { ascending: false })
+    .limit(limit)
+  if (error) throw error
+  return data ?? []
+}
+
+/** Decisiones IA relacionadas con un símbolo. */
+export async function getDecisionsBySymbol(symbol: string, limit = 10): Promise<AiDecision[]> {
+  const { data, error } = await supabase
+    .from('ai_decisions')
+    .select('*')
+    .eq('symbol', symbol)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+  if (error) throw error
+  return data ?? []
+}
+
 /** Serie de rendimiento del portafolio para gráficos. */
 export async function getPerformance(limit = 365): Promise<Performance[]> {
   const { data, error } = await supabase
