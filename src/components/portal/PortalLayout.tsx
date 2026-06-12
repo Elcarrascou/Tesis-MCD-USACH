@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { LayoutDashboard, ArrowLeftRight, BrainCircuit, TrendingUp, FlaskConical, BarChart3, LogOut, Menu, X, ExternalLink } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -82,6 +82,14 @@ export default function PortalLayout() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
+  // Cerrar drawer con Escape (a11y)
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   async function handleSignOut() {
     await signOut()
     navigate('/portal/login', { replace: true })
@@ -112,15 +120,14 @@ export default function PortalLayout() {
         </button>
       </div>
 
-      {/* Mobile drawer */}
-      {open && (
-        <div className="lg:hidden fixed inset-0 z-[55]" onClick={() => setOpen(false)}>
-          <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.5)' }} />
-          <aside className="absolute top-0 left-0 bottom-0 w-64 flex flex-col" style={{ background: '#333333' }} onClick={e => e.stopPropagation()}>
-            <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} realtimeStatus={aggregate} />
-          </aside>
-        </div>
-      )}
+      {/* Mobile drawer — siempre en DOM, animado (.drawer-root data-open) */}
+      <div className="lg:hidden fixed inset-0 z-[55] drawer-root" data-open={open} aria-hidden={!open}
+        onClick={() => setOpen(false)}>
+        <div className="absolute inset-0 drawer-backdrop" style={{ background: 'rgba(0,0,0,0.5)' }} />
+        <aside className="absolute top-0 left-0 bottom-0 w-64 flex flex-col drawer-panel" style={{ background: '#333333' }} onClick={e => e.stopPropagation()}>
+          <Sidebar email={user?.email} onSignOut={handleSignOut} onNavigate={() => setOpen(false)} realtimeStatus={aggregate} />
+        </aside>
+      </div>
 
       {/* Content */}
       <main className="lg:pl-64 pt-[60px] lg:pt-1">

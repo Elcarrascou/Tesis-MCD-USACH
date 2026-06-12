@@ -59,8 +59,10 @@ src/
 ├── lib/
 │   ├── supabase.ts          # cliente tipado <Database>
 │   ├── database.types.ts    # tipos generados de Supabase (regenerar tras migraciones)
-│   └── queries.ts           # funciones de acceso a datos OPERACIONALES
+│   ├── queries.ts           # funciones de acceso a datos OPERACIONALES
+│   └── market.ts            # cotizaciones Yahoo Finance vía edge function (getQuotes/getHistory + MARKET_INDICES)
 ├── hooks/useSupabaseQuery.ts # hook genérico loading/error/data
+├── hooks/useLiveQuotes.ts    # polling Yahoo 60s, pausa con tab oculta, refresca al volver
 ├── components/
 │   ├── layout/  (Nav, Footer)
 │   ├── sections/ (Hero, Overview, Architecture, MLModels, MarcoTeorico, TechStack, Budget, Roadmap)
@@ -85,6 +87,7 @@ src/
 ## 🔌 Servicios
 
 - **Supabase** proyecto `PT_MCD_USACH_DCU` (id `xzedmtnouzarsslyglbe`). Env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (ya en Vercel). Tras cambios DDL: correr `get_advisors` (security) y regenerar `database.types.ts`.
+- **Edge Function `yahoo-finance`** (verify_jwt ON): proxy a Yahoo Finance chart API v8 (browser no puede por CORS). POST body `{ action:'quotes', symbols:[...] }` o `{ action:'history', symbol, range, interval }`. Requiere User-Agent de navegador o Yahoo devuelve 429. Cliente: `lib/market.ts` + `hooks/useLiveQuotes.ts`; el Dashboard del portal muestra precios en vivo (KPIs/tabla recalculados) y `MarketStrip` con índices ^IPSA/^GSPC/^IXIC.
 - **Vercel** proyecto `web`. Deployment Protection debe estar **OFF** (sitio público). Si un deploy reactiva 401, desactivar `ssoProtection`.
 
 ---

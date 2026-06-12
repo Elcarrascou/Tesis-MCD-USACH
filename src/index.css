@@ -166,6 +166,35 @@
   }
 
   /* ────────────────────────────────────────────────────
+     Portal mobile drawer — slide iOS-like (--ease-drawer)
+     backdrop fade + panel translateX; visibility delay trick
+     ──────────────────────────────────────────────────── */
+  .drawer-root {
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0ms 300ms;
+  }
+  .drawer-root[data-open="true"] {
+    pointer-events: auto;
+    visibility: visible;
+    transition: visibility 0ms 0ms;
+  }
+  .drawer-backdrop {
+    opacity: 0;
+    transition: opacity 260ms ease;
+  }
+  .drawer-root[data-open="true"] .drawer-backdrop { opacity: 1; }
+  .drawer-panel {
+    transform: translateX(-100%);
+    transition: transform 300ms var(--ease-drawer);
+  }
+  .drawer-root[data-open="true"] .drawer-panel { transform: translateX(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .drawer-panel { transition: none; transform: none; }
+    .drawer-backdrop { transition: opacity 150ms ease; }
+  }
+
+  /* ────────────────────────────────────────────────────
      ML model metric bars — grow from left on mount
      Emil: transform+opacity únicamente (no width, no layout)
      transform-origin: left center → crece desde el inicio
