@@ -87,7 +87,8 @@ src/
 ## 🔌 Servicios
 
 - **Supabase** proyecto `PT_MCD_USACH_DCU` (id `xzedmtnouzarsslyglbe`). Env: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (ya en Vercel). Tras cambios DDL: correr `get_advisors` (security) y regenerar `database.types.ts`.
-- **Edge Function `yahoo-finance`** (verify_jwt ON): proxy a Yahoo Finance chart API v8 (browser no puede por CORS). POST body `{ action:'quotes', symbols:[...] }` o `{ action:'history', symbol, range, interval }`. Requiere User-Agent de navegador o Yahoo devuelve 429. Cliente: `lib/market.ts` + `hooks/useLiveQuotes.ts`; el Dashboard del portal muestra precios en vivo (KPIs/tabla recalculados) y `MarketStrip` con índices ^IPSA/^GSPC/^IXIC.
+- **Edge Function `yahoo-finance`** (verify_jwt ON): proxy a Yahoo Finance chart API v8 (browser no puede por CORS). POST body `{ action:'quotes', symbols:[...] }`, `{ action:'history', symbol, range, interval }` o `{ action:'predict', symbol }` (inferencia demo: features técnicos de 6m → XGBoost señal por boosting de stumps + Random Forest riesgo por votación de árboles; los modelos reales corren en Python/FastAPI). Requiere User-Agent de navegador o Yahoo devuelve 429. Cliente: `lib/market.ts` + `hooks/useLiveQuotes.ts`; el Dashboard del portal muestra precios en vivo (KPIs/tabla recalculados) y `MarketStrip` con índices ^IPSA/^GSPC/^IXIC.
+- **Página Modelos ML del portal**: predicciones agrupadas por stock (accordion símbolo → modelos → `PredictionDetail`) + `StockAnalyzer` (buscador online de cualquier símbolo con inferencia XGBoost/Random Forest vía `action:'predict'`).
 - **Vercel** proyecto `web`. Deployment Protection debe estar **OFF** (sitio público). Si un deploy reactiva 401, desactivar `ssoProtection`.
 
 ---
