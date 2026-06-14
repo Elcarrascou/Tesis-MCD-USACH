@@ -13,6 +13,7 @@ export type Movement      = Tables['movements']['Row']
 export type AiDecision    = Tables['ai_decisions']['Row']
 export type MlPrediction  = Tables['ml_predictions']['Row']
 export type Performance   = Tables['performance']['Row']
+export type ModelMetric   = Tables['model_metrics']['Row']
 
 /** Posiciones actuales del portafolio, ordenadas por valor de mercado. */
 export async function getPortfolio(): Promise<Portfolio[]> {
@@ -103,6 +104,23 @@ export async function getPerformance(limit = 365): Promise<Performance[]> {
     .from('performance')
     .select('*')
     .order('snapshot_date', { ascending: true })
+    .limit(limit)
+  if (error) throw error
+  return data ?? []
+}
+
+/**
+ * Métricas de evaluación del backtesting walk-forward (Fase C).
+ * Incluye métricas por modelo (RMSE/MAE/MAPE/dir_acc · accuracy/F1) y
+ * resultados de estrategia vs benchmarks (cum_return/Sharpe/maxDD).
+ * `symbol = null` ⇒ agregado global del modelo o estrategia.
+ * Lectura pública (RLS), no requiere backend corriendo.
+ */
+export async function getModelMetrics(limit = 500): Promise<ModelMetric[]> {
+  const { data, error } = await supabase
+    .from('model_metrics')
+    .select('*')
+    .order('created_at', { ascending: false })
     .limit(limit)
   if (error) throw error
   return data ?? []
