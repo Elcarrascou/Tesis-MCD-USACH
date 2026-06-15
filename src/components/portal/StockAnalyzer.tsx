@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Search, Loader2 } from 'lucide-react'
-import { analyzeSymbol } from '../../lib/market'
-import type { PredictResponse } from '../../lib/market'
+import { Search, Loader2, Server, ArrowUp, ArrowDown } from 'lucide-react'
+import { analyzeSymbol, getBackendPredictions, hasBackend } from '../../lib/market'
+import type { PredictResponse, BackendPredictResponse, BackendPrediction } from '../../lib/market'
 import { fmtUSD, fmtPct } from '../../lib/format'
 import { Card, Badge } from './ui'
 
@@ -75,11 +75,84 @@ function StumpBars({ stumps }: { stumps: PredictResponse['xgboost']['stumps'] })
 
 const VOTE_COLORS: Record<string, string> = { bajo: '#1a7a3c', medio: '#E37200', alto: '#c0392b' }
 
+// ── Modelos entrenados REALES (backend FastAPI) ──────────────
+type ModelKey = BackendPrediction['model']
+
+const MODEL_META: Record<ModelKey, { label: string; color: string; typeLabel: string }> = {
+  lstm:          { label: 'LSTM',          color: '#009A93', typeLabel: 'Precio · 5d' },
+  xgboost:       { label: 'XGBoost',       color: '#E37200', typeLabel: 'Señal · 5d' },
+  prophet:       { label: 'Prophet',       color: '#6b21a8', typeLabel: 'Tendencia · 30d' },
+  random_forest: { label: 'Random Forest', color: '#1a7a3c', typeLabel: 'Riesgo · 20d' },
+}
+const MODEL_ORDER: ModelKey[] = ['lstm', 'xgboost', 'prophet', 'random_forest']
+
+/** Card de un modelo real: precio/tendencia muestran valor; señal/riesgo muestran etiqueta. */
+function RealModelCard({ model, pred }: { model: ModelKey; pred?: BackendPrediction }) {
+  const meta = MODEL_META[model]
+  const showsValue = pred?.predicted_value != null
+  const dir = pred?.signal === 'up' ? 'up' : pred?.signal === 'down' ? 'down' : null
+  return (
+    <div className="rounded-xl p-3.5" style={{ background: '#ffffff', border: '1px solid rgba(0,154,147,0.18)', borderLeft: `3px solid ${meta.color}` }}>
+      <div className="flex items-baseline justify-between gap-2 mb-2">
+        <span className="font-bold text-[14px]" style={{ color: meta.color }}>{meta.label}</span>
+        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.06em]" style={{ color: '#4f4f4f' }}>{meta.typeLabel}</span>
+      </div>
+      {pred ? (
+        <>
+          <div className="flex items-center gap-2 mb-2">
+            {showsValue ? (
+              <span className="font-black text-[19px] tabular-nums" style={{ color: '#333333' }}>{fmtUSD(pred.predicted_value)}</span>
+            ) : (
+              <span className="font-black text-[18px] uppercase tracking-[0.02em]" style={{ color: meta.color }}>{pred.signal}</span>
+            )}
+            {dir && (dir === 'up'
+              ? <ArrowUp size={18} aria-label="al alza" style={{ color: '#1a7a3c' }} />
+              : <ArrowDown size={18} aria-label="a la baja" style={{ color: '#c0392b' }} />)}
+          </div>
+          <div className="flex items-center justify-between font-mono text-[11px] tabular-nums" style={{ color: '#4f4f4f' }}>
+            <span>conf. <strong style={{ color: '#333333' }}>{pred.confidence != null ? `${pred.confidence}%` : '—'}</strong></span>
+            <span>{pred.horizon_days ? `${pred.horizon_days}d` : ''}</span>
+          </div>
+        </>
+      ) : (
+        <span className="font-mono text-[11px]" style={{ color: '#c0392b' }}>sin dato</span>
+      )}
+    </div>
+  )
+}
+
+/** Panel con las 4 predicciones reales del backend Python/FastAPI. */
+function RealModels({ data }: { data: BackendPredictResponse }) {
+  const byModel = new Map(data.predictions.map(p => [p.model, p]))
+  return (
+    <div className="rounded-lg p-3.5" style={{ background: '#f5fffe', border: '1px solid rgba(0,154,147,0.2)' }}>
+      <div className="flex items-center gap-2 mb-3">
+        <Server size={14} aria-hidden="true" style={{ color: '#009A93' }} />
+        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.1em]" style={{ color: '#009A93' }}>
+          Modelos entrenados · backend FastAPI
+        </span>
+        {data.in_universe && (
+          <span className="font-mono text-[9px] font-bold uppercase px-1.5 py-0.5 rounded" style={{ background: 'rgba(0,154,147,0.12)', color: '#009A93' }}>
+            en universo
+          </span>
+        )}
+      </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {MODEL_ORDER.map(m => <RealModelCard key={m} model={m} pred={byModel.get(m)} />)}
+      </div>
+    </div>
+  )
+}
+
 export default function StockAnalyzer() {
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<PredictResponse | null>(null)
+  // Modelos reales del backend (carga independiente; degrada si no hay backend).
+  const [realResult, setRealResult] = useState<BackendPredictResponse | null>(null)
+  const [realLoading, setRealLoading] = useState(false)
+  const [realError, setRealError] = useState<string | null>(null)
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
@@ -87,6 +160,18 @@ export default function StockAnalyzer() {
     if (!symbol || loading) return
     setLoading(true)
     setError(null)
+    setRealResult(null)
+    setRealError(null)
+
+    // Backend real en paralelo: no bloquea ni rompe la viz demo si falla.
+    if (hasBackend()) {
+      setRealLoading(true)
+      getBackendPredictions(symbol)
+        .then(setRealResult)
+        .catch(err => setRealError(err instanceof Error ? err.message : 'Backend no disponible'))
+        .finally(() => setRealLoading(false))
+    }
+
     try {
       setResult(await analyzeSymbol(symbol))
     } catch (err) {
@@ -226,6 +311,20 @@ export default function StockAnalyzer() {
             </div>
           </div>
 
+          {/* Modelos entrenados reales (backend FastAPI) */}
+          {realLoading && (
+            <div className="flex items-center gap-2 text-[12px] font-mono" style={{ color: '#009A93' }}>
+              <Loader2 size={14} className="animate-spin" aria-hidden="true" />
+              Consultando modelos entrenados del backend…
+            </div>
+          )}
+          {realResult && <RealModels data={realResult} />}
+          {realError && (
+            <p className="text-[12px] font-mono" style={{ color: '#4f4f4f' }}>
+              Modelos del backend no disponibles ({realError}). Mostrando solo inferencia en línea.
+            </p>
+          )}
+
           {/* Features técnicos */}
           <div>
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] mb-2" style={{ color: '#4f4f4f' }}>
@@ -242,8 +341,9 @@ export default function StockAnalyzer() {
           </div>
 
           <p className="text-[11px] leading-[1.5]" style={{ color: '#4f4f4f' }}>
-            Inferencia demo calculada en línea sobre features técnicos de Yahoo Finance.
-            Los modelos entrenados de la tesis corren en el backend Python/FastAPI.
+            Panel superior: inferencia en línea sobre features técnicos de Yahoo Finance (aproximación).
+            Panel «Modelos entrenados»: predicciones reales de los 4 modelos de la tesis
+            (LSTM, XGBoost, Prophet, Random Forest) servidas por el backend Python/FastAPI.
           </p>
         </div>
       )}

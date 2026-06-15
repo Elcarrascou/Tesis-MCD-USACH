@@ -80,6 +80,47 @@ export interface PredictResponse {
   generatedAt: number
 }
 
+// ── Modelos entrenados REALES (backend Python/FastAPI) ───────
+// El backend expone GET /predict/{symbol} con las 4 predicciones reales
+// (LSTM precio, XGBoost señal, Prophet tendencia, Random Forest riesgo).
+// URL pública en VITE_API_URL (Railway). Si no está seteada o falla, la UI
+// degrada al panel demo sin romperse.
+const API_URL = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '')
+
+export interface BackendPrediction {
+  model: 'lstm' | 'xgboost' | 'prophet' | 'random_forest'
+  symbol: string
+  prediction_type: 'price' | 'signal' | 'trend' | 'risk'
+  predicted_value: number | null
+  signal: string | null
+  confidence: number | null
+  horizon_days: number | null
+}
+
+export interface BackendPredictResponse {
+  symbol: string
+  in_universe: boolean
+  predictions: BackendPrediction[]
+  errors: Record<string, string>
+}
+
+/** ¿Hay backend real configurado? (controla si se intenta el fetch). */
+export const hasBackend = (): boolean => API_URL.length > 0
+
+/**
+ * Predicciones de los 4 modelos entrenados de la tesis (backend FastAPI).
+ * Inferencia on-demand sobre 2y de históricos Yahoo. Lectura (no escribe).
+ */
+export async function getBackendPredictions(symbol: string): Promise<BackendPredictResponse> {
+  if (!API_URL) throw new Error('VITE_API_URL no configurada')
+  const res = await fetch(`${API_URL}/predict/${encodeURIComponent(symbol)}`)
+  if (!res.ok) {
+    const body = await res.json().catch(() => null)
+    throw new Error(body?.detail ?? `Backend respondió ${res.status}`)
+  }
+  return res.json() as Promise<BackendPredictResponse>
+}
+
 /** Cotizaciones en vivo para una lista de símbolos (acciones e índices `^IPSA`, `^GSPC`…). */
 export async function getQuotes(symbols: string[]): Promise<QuotesResponse> {
   const { data, error } = await supabase.functions.invoke<QuotesResponse>('yahoo-finance', {
