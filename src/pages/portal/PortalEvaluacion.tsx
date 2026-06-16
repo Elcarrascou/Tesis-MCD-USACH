@@ -22,6 +22,7 @@ const METRIC_META: Record<string, { label: string; fmt: Fmt; better: 'high' | 'l
   dir_acc:      { label: 'Prec. direcc.', fmt: 'pct',       better: 'high' },
   accuracy:     { label: 'Accuracy',      fmt: 'pct',       better: 'high' },
   f1_macro:     { label: 'F1 macro',      fmt: 'pct',       better: 'high' },
+  auc:          { label: 'AUC ROC',       fmt: 'pct',       better: 'high' },
   cum_return:   { label: 'Retorno acum.', fmt: 'pctSigned', better: 'high' },
   sharpe:       { label: 'Sharpe',        fmt: 'num',       better: 'high' },
   max_drawdown: { label: 'Max drawdown',  fmt: 'pctSigned', better: 'high' },
@@ -29,7 +30,7 @@ const METRIC_META: Record<string, { label: string; fmt: Fmt; better: 'high' | 'l
 
 // Métricas a mostrar por tipo de tarea, en orden
 const REGRESSION_METRICS = ['rmse', 'mae', 'mape', 'dir_acc'] // LSTM, Prophet
-const CLASSIF_METRICS    = ['accuracy', 'f1_macro']           // XGBoost, Random Forest
+const CLASSIF_METRICS    = ['accuracy', 'f1_macro', 'auc']    // XGBoost, Random Forest
 
 function fmtMetric(metric: string, v: number): string {
   const fmt = METRIC_META[metric]?.fmt ?? 'num'
@@ -264,7 +265,7 @@ export default function PortalEvaluacion() {
         <p className="mt-6 text-[12px] leading-[1.6]" style={{ color: '#4f4f4f' }}>
           Las métricas agregadas son el promedio de los folds del walk-forward (sin look-ahead).
           LSTM y Prophet reportan error de predicción de precio (RMSE/MAE en USD, MAPE en %) y precisión direccional;
-          XGBoost y Random Forest reportan accuracy y F1 macro sobre la clasificación de señal/riesgo.
+          XGBoost y Random Forest reportan accuracy, F1 macro y AUC ROC (One-vs-Rest macro) sobre la clasificación de señal/riesgo.
         </p>
       </QueryState>
 
