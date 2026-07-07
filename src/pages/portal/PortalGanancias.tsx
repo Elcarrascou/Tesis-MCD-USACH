@@ -29,14 +29,14 @@ export default function PortalGanancias() {
   const kpis = last ? [
     { label: 'Valor actual',        value: fmtUSD(last.total_value), color: '#009A93' },
     { label: 'Retorno acumulado',   value: fmtPct(last.cumulative_return_pct), color: (last.cumulative_return_pct ?? 0) >= 0 ? '#1a7a3c' : '#c0392b' },
-    { label: 'Benchmark (IPSA)',    value: fmtPct(last.benchmark_return_pct), color: '#E37200' },
+    { label: 'Benchmark (S&P 500)',    value: fmtPct(last.benchmark_return_pct), color: '#E37200' },
     { label: 'Alpha vs benchmark',  value: fmtPct((last.cumulative_return_pct ?? 0) - (last.benchmark_return_pct ?? 0)), color: '#6b21a8' },
   ] : []
 
   return (
     <>
       <PageHeader tag="Portal · Ganancias" title="Rendimiento del portafolio"
-        subtitle="Evolución del valor total comparada con el benchmark del mercado (IPSA)." />
+        subtitle="Evolución del valor total comparada con el benchmark del mercado (S&P 500, ETF SPY)." />
 
       <QueryState loading={loading} error={error} empty={rows.length === 0} emptyLabel="Aún no hay métricas de rendimiento.">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
@@ -81,7 +81,7 @@ export default function PortalGanancias() {
             </span>
           </div>
           <p className="leading-[1.5] mb-4" style={{ fontSize:'13px', color:'#4f4f4f' }}>
-            Retorno acumulado del portafolio frente al benchmark IPSA (proxy ECH) desde el inicio del período.
+            Retorno acumulado del portafolio frente al benchmark S&P 500 (ETF SPY) desde el inicio del período.
             La separación entre las líneas representa el alpha generado por la estrategia.
           </p>
           <div className="overflow-x-auto">
@@ -89,11 +89,11 @@ export default function PortalGanancias() {
               labels={labels}
               series={[
                 { label: 'Portafolio',     color: '#009A93', values: portfolioSeries },
-                { label: 'Benchmark IPSA', color: '#E37200', values: benchmarkSeries },
+                { label: 'Benchmark S&P 500', color: '#E37200', values: benchmarkSeries },
               ]}
               height={240}
               yFormatter={(v) => `${v.toFixed(1)}%`}
-              title="Retorno acumulado del portafolio comparado con el benchmark IPSA"
+              title="Retorno acumulado del portafolio comparado con el benchmark S&P 500"
             />
           </div>
         </Card>
