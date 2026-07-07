@@ -100,7 +100,7 @@ export default function PortalAnalytics() {
         {/* Predicciones por modelo */}
         <Card className="p-6">
           <h2 className="font-bold text-[16px] mb-4" style={{ color:'#333333' }}>Predicciones por modelo ML</h2>
-          <QueryState loading={predictions.loading} error={predictions.error} empty={byModel.length === 0} emptyLabel="Sin predicciones registradas.">
+          <QueryState skeleton="block" loading={predictions.loading} error={predictions.error} empty={byModel.length === 0} emptyLabel="Sin predicciones registradas.">
             <DonutChart
               data={byModel}
               centerValue={String(totalPredictions)}
@@ -113,7 +113,7 @@ export default function PortalAnalytics() {
         {/* Decisiones por acción */}
         <Card className="p-6">
           <h2 className="font-bold text-[16px] mb-4" style={{ color:'#333333' }}>Decisiones del agente IA por acción</h2>
-          <QueryState loading={decisions.loading} error={decisions.error} empty={decisionsByAction.length === 0} emptyLabel="Sin decisiones registradas.">
+          <QueryState skeleton="block" loading={decisions.loading} error={decisions.error} empty={decisionsByAction.length === 0} emptyLabel="Sin decisiones registradas.">
             <DonutChart
               data={decisionsByAction}
               centerValue={String(totalDecisions)}
@@ -129,7 +129,7 @@ export default function PortalAnalytics() {
           <p className="text-[12px] mb-4" style={{ color:'#4f4f4f' }}>
             Promedio del campo confidence en todas las predicciones del modelo.
           </p>
-          <QueryState loading={predictions.loading} error={predictions.error} empty={avgConfidence.length === 0} emptyLabel="Sin datos de confianza.">
+          <QueryState skeleton="block" loading={predictions.loading} error={predictions.error} empty={avgConfidence.length === 0} emptyLabel="Sin datos de confianza.">
             <BarChartHorizontal
               items={avgConfidence}
               maxValue={100}
@@ -145,7 +145,7 @@ export default function PortalAnalytics() {
           <p className="text-[12px] mb-4" style={{ color:'#4f4f4f' }}>
             Cuenta de cada señal categórica (compra, venta, tendencias, riesgo) producida por los modelos.
           </p>
-          <QueryState loading={predictions.loading} error={predictions.error} empty={signalDist.length === 0} emptyLabel="Sin señales categóricas.">
+          <QueryState skeleton="block" loading={predictions.loading} error={predictions.error} empty={signalDist.length === 0} emptyLabel="Sin señales categóricas.">
             <BarChartHorizontal
               items={signalDist}
               valueFormatter={(v) => v.toFixed(0)}
@@ -161,7 +161,7 @@ export default function PortalAnalytics() {
             Promedio de confianza en las decisiones según el motor LLM utilizado por OpenClaw (Claude, GPT, Ollama).
             Útil para evaluar la estrategia de routing y costo-calidad.
           </p>
-          <QueryState loading={decisions.loading} error={decisions.error} empty={confByEngine.length === 0} emptyLabel="Sin métricas por motor.">
+          <QueryState skeleton="block" loading={decisions.loading} error={decisions.error} empty={confByEngine.length === 0} emptyLabel="Sin métricas por motor.">
             <BarChartHorizontal
               items={confByEngine}
               maxValue={100}

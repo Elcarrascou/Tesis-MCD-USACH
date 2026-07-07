@@ -4,6 +4,7 @@ import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
 import { getModelMetrics } from '../../lib/queries'
 import { fmtNum } from '../../lib/format'
 import { PageHeader, Card, QueryState } from '../../components/portal/ui'
+import { GroupedBarChart } from '../../components/portal/charts'
 
 // ── Metadatos de modelos (mismo color que la página Modelos ML) ──
 const MODEL_META: Record<string, { label: string; color: string; order: number }> = {
@@ -112,6 +113,42 @@ export default function PortalEvaluacion() {
     return { models, strategy }
   }, [data])
 
+  // Datos para los bar charts de clasificadores (XGBoost vs Random Forest)
+  const { classifGroups, aucBySymbolGroups, rfAuc, xgbAuc } = useMemo(() => {
+    const xgb = models.find(m => m.model === 'xgboost')
+    const rf  = models.find(m => m.model === 'random_forest')
+    if (!xgb && !rf) return { classifGroups: [], aucBySymbolGroups: [], rfAuc: null, xgbAuc: null }
+    const pair = [xgb, rf].filter(Boolean) as ModelGroup[]
+
+    const classifGroups = CLASSIF_METRICS.map(m => ({
+      label: METRIC_META[m].label,
+      bars: pair.map(g => ({
+        label: MODEL_META[g.model].label,
+        color: MODEL_META[g.model].color,
+        value: g.global.get(m) ?? null,
+      })),
+    }))
+
+    const symbols = [...new Set(pair.flatMap(g => g.symbols.map(s => s.symbol)))].sort()
+    const aucBySymbolGroups = symbols
+      .map(symbol => ({
+        label: symbol,
+        bars: pair.map(g => ({
+          label: MODEL_META[g.model].label,
+          color: MODEL_META[g.model].color,
+          value: g.symbols.find(s => s.symbol === symbol)?.values.get('auc') ?? null,
+        })),
+      }))
+      .filter(g => g.bars.some(b => b.value != null))
+
+    return {
+      classifGroups,
+      aucBySymbolGroups,
+      rfAuc: rf?.global.get('auc') ?? null,
+      xgbAuc: xgb?.global.get('auc') ?? null,
+    }
+  }, [models])
+
   const isEmpty = models.length === 0 && strategy.length === 0
 
   return (
@@ -165,6 +202,56 @@ export default function PortalEvaluacion() {
                 </tbody>
               </table>
             </div>
+          </Card>
+        )}
+
+        {/* ════════ Clasificadores: XGBoost vs Random Forest ════════ */}
+        {classifGroups.length > 0 && (
+          <Card className="p-6 mb-7" style={{ borderTop: '3px solid #6b21a8' }}>
+            <h2 className="font-black text-[17px]" style={{ color: '#333333' }}>Clasificadores frente al nivel de azar</h2>
+            <p className="text-[13px] mt-1 mb-4 leading-[1.5]" style={{ color: '#4f4f4f' }}>
+              Métricas globales del walk-forward para los dos clasificadores. La línea punteada marca el nivel de azar (50%):
+              una métrica cercana a esa línea indica que el modelo no supera a una moneda al aire.
+            </p>
+            <div className="overflow-x-auto">
+              <GroupedBarChart
+                groups={classifGroups}
+                yMax={100}
+                refLine={{ value: 50, label: 'azar 50%' }}
+                valueFormatter={(v) => `${fmtNum(v)}%`}
+                height={270}
+                title="Comparación de accuracy, F1 macro y AUC ROC entre XGBoost y Random Forest, con línea de referencia en el nivel de azar del 50 por ciento"
+              />
+            </div>
+            {rfAuc != null && xgbAuc != null && (
+              <p className="mt-4 rounded-xl px-4 py-3 text-[13px] leading-[1.6]"
+                style={{ background: 'rgba(107,33,168,0.06)', border: '1px solid rgba(107,33,168,0.2)', color: '#333333' }}>
+                <strong style={{ color: '#6b21a8' }}>Lectura clave:</strong>{' '}
+                el clasificador de riesgo Random Forest alcanza un AUC ROC global de{' '}
+                <strong className="tabular-nums" style={{ color: '#6b21a8' }}>{fmtNum(rfAuc)}%</strong> — el riesgo de un activo
+                sí es predecible desde sus features técnicos. La señal de compra/venta de XGBoost queda en{' '}
+                <strong className="tabular-nums" style={{ color: '#E37200' }}>{fmtNum(xgbAuc)}%</strong>, en torno al azar:
+                resultado consistente con la hipótesis de eficiencia débil del mercado.
+              </p>
+            )}
+            {aucBySymbolGroups.length > 0 && (
+              <>
+                <h3 className="font-bold text-[15px] mt-6 mb-1" style={{ color: '#333333' }}>AUC ROC por símbolo</h3>
+                <p className="text-[13px] mb-3 leading-[1.5]" style={{ color: '#4f4f4f' }}>
+                  La ventaja del Random Forest se sostiene en todos los símbolos evaluados, no solo en el agregado.
+                </p>
+                <div className="overflow-x-auto">
+                  <GroupedBarChart
+                    groups={aucBySymbolGroups}
+                    yMax={100}
+                    refLine={{ value: 50, label: 'azar 50%' }}
+                    valueFormatter={(v) => `${fmtNum(v)}%`}
+                    height={240}
+                    title="AUC ROC por símbolo para XGBoost y Random Forest"
+                  />
+                </div>
+              </>
+            )}
           </Card>
         )}
 

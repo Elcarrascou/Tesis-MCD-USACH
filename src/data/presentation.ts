@@ -20,13 +20,13 @@ export const SLIDES: Slide[] = [
 ]
 
 export const ANTEPROYECTO_SECTIONS: DocSection[] = [
-  { num: '1.', title: 'Resumen ejecutivo',        done: true },
-  { num: '2.', title: 'Introducción',             done: true },
-  { num: '3.', title: 'Hipótesis y objetivos',    done: true },
-  { num: '4.', title: 'Marco Teórico',            done: true },
-  { num: '5.', title: 'Metodología',              done: false },
-  { num: '6.', title: 'Plan de desarrollo',       done: false },
-  { num: '7.', title: 'Presupuesto y cronograma', done: false },
+  { num: '1.', title: 'Resumen y abstract',         done: true },
+  { num: '2.', title: 'Introducción e hipótesis',   done: true },
+  { num: '3.', title: 'Marco Teórico',              done: true },
+  { num: '4.', title: 'Arquitectura y metodología', done: true },
+  { num: '5.', title: 'Resultados preliminares',    done: true },
+  { num: '6.', title: 'Plan de trabajo restante',   done: true },
+  { num: '7.', title: 'Conclusiones y referencias', done: true },
 ]
 
 export const PRESENTATION_STATS = [

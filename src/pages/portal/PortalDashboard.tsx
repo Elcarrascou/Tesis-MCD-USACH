@@ -104,7 +104,7 @@ export default function PortalDashboard() {
         {/* Donut: 2 cols */}
         <Card className="lg:col-span-2 p-6">
           <h2 className="font-bold text-[16px] mb-4" style={{ color:'#333333' }}>Distribución del portafolio</h2>
-          <QueryState loading={loading} error={error} empty={donutData.length === 0} emptyLabel="Sin posiciones para distribuir.">
+          <QueryState skeleton="block" loading={loading} error={error} empty={donutData.length === 0} emptyLabel="Sin posiciones para distribuir.">
             <DonutChart
               data={donutData}
               centerValue={fmtUSD(totalValue)}

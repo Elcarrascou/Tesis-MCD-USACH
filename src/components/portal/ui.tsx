@@ -19,14 +19,30 @@ export function Card({ children, className = '', style }: { children: ReactNode;
   )
 }
 
+/** Placeholder shimmer: 'page' = KPIs + gráfico + tabla; 'block' = bloque único (para cards). */
+function SkeletonLayout({ variant }: { variant: 'page' | 'block' }) {
+  if (variant === 'block') return <div aria-hidden="true" className="skeleton h-[180px]" />
+  return (
+    <div aria-hidden="true">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+        {[0, 1, 2, 3].map(i => <div key={i} className="skeleton h-[88px]" />)}
+      </div>
+      <div className="skeleton h-[260px] mb-6" />
+      <div className="space-y-3">
+        {[0, 1, 2, 3].map(i => <div key={i} className="skeleton h-[40px]" />)}
+      </div>
+    </div>
+  )
+}
+
 /** Maneja loading / error / empty de forma consistente. */
-export function QueryState({ loading, error, empty, emptyLabel = 'Sin datos disponibles.', children }:
-  { loading: boolean; error: Error | null; empty: boolean; emptyLabel?: string; children: ReactNode }) {
+export function QueryState({ loading, error, empty, emptyLabel = 'Sin datos disponibles.', skeleton = 'page', children }:
+  { loading: boolean; error: Error | null; empty: boolean; emptyLabel?: string; skeleton?: 'page' | 'block'; children: ReactNode }) {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-16 gap-3" aria-live="polite">
-        <div className="w-2.5 h-2.5 rounded-full animate-blink" style={{ background: '#009A93' }} />
-        <span className="font-mono text-[14px] font-bold" style={{ color: '#4f4f4f' }}>Cargando…</span>
+      <div role="status" aria-live="polite" aria-busy="true">
+        <span className="sr-only">Cargando…</span>
+        <SkeletonLayout variant={skeleton} />
       </div>
     )
   }
@@ -40,8 +56,12 @@ export function QueryState({ loading, error, empty, emptyLabel = 'Sin datos disp
   }
   if (empty) {
     return (
-      <div className="py-12 text-center">
+      <div className="py-14 px-6 text-center rounded-[16px]"
+        style={{ border: '1.5px dashed rgba(0,154,147,0.35)', background: 'rgba(0,154,147,0.03)' }}>
         <p className="text-[15px] font-medium" style={{ color: '#4f4f4f' }}>{emptyLabel}</p>
+        <p className="font-mono text-[12px] mt-1.5" style={{ color: '#4f4f4f' }}>
+          Los datos se generan con el pipeline diario automático.
+        </p>
       </div>
     )
   }

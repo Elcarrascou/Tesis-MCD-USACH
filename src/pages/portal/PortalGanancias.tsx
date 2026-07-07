@@ -3,9 +3,10 @@ import { useSupabaseQuery } from '../../hooks/useSupabaseQuery'
 import { getPerformance } from '../../lib/queries'
 import { fmtUSD, fmtPct, fmtDate } from '../../lib/format'
 import { PageHeader, Card, QueryState } from '../../components/portal/ui'
-import { LineChartCompare } from '../../components/portal/charts'
+import { LineChartCompare, AreaChart } from '../../components/portal/charts'
 
-const dayLabel = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: 'short' })
+const dayLabel = new Intl.DateTimeFormat('es-CL', { day: '2-digit', month: 'short', timeZone: 'UTC' })
+const usdCompact = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'USD', notation: 'compact', maximumFractionDigits: 1 })
 
 const EMPTY_ROWS: Awaited<ReturnType<typeof getPerformance>> = []
 
@@ -14,20 +15,15 @@ export default function PortalGanancias() {
   const rows = data ?? EMPTY_ROWS
   const last = rows[rows.length - 1]
 
-  // Construir series base normalizadas a 100 (portafolio vs benchmark) para comparar evolución relativa.
-  const { labels, portfolioSeries, benchmarkSeries } = useMemo(() => {
-    if (rows.length === 0) return { labels: [], portfolioSeries: [], benchmarkSeries: [] }
-    const lbls = rows.map(r => dayLabel.format(new Date(r.snapshot_date)))
-    let cumPort = 100, cumBench = 100
-    const port: number[] = [100]
-    const bench: number[] = [100]
-    for (let i = 1; i < rows.length; i++) {
-      cumPort  *= 1 + (rows[i].daily_return_pct ?? 0) / 100
-      cumBench *= 1 + (rows[i].benchmark_return_pct ? rows[i].benchmark_return_pct! - (rows[i-1].benchmark_return_pct ?? 0) : 0) / 100
-      port.push(cumPort)
-      bench.push(cumBench)
+  // Series directas desde `performance`: equity (total_value) y retornos acumulados vs benchmark.
+  const { labels, equitySeries, portfolioSeries, benchmarkSeries } = useMemo(() => {
+    if (rows.length === 0) return { labels: [], equitySeries: [], portfolioSeries: [], benchmarkSeries: [] }
+    return {
+      labels: rows.map(r => dayLabel.format(new Date(r.snapshot_date))),
+      equitySeries: rows.map(r => r.total_value ?? 0),
+      portfolioSeries: rows.map(r => r.cumulative_return_pct ?? 0),
+      benchmarkSeries: rows.map(r => r.benchmark_return_pct ?? 0),
     }
-    return { labels: lbls, portfolioSeries: port, benchmarkSeries: bench }
   }, [rows])
 
   const kpis = last ? [
@@ -52,16 +48,41 @@ export default function PortalGanancias() {
           ))}
         </div>
 
-        {/* Comparación: Portafolio vs Benchmark (base 100) */}
+        {/* Equity curve: valor total del portafolio */}
         <Card className="p-6 mb-6">
           <div className="flex flex-wrap items-baseline justify-between gap-3 mb-2">
-            <h2 className="font-bold text-[16px]" style={{ color: '#333333' }}>Evolución relativa (base 100)</h2>
+            <h2 className="font-bold text-[16px]" style={{ color: '#333333' }}>Curva de equity</h2>
             <span className="font-mono text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color:'#4f4f4f' }}>
-              últimos {rows.length} días
+              {rows.length} días hábiles desde inception
             </span>
           </div>
           <p className="leading-[1.5] mb-4" style={{ fontSize:'13px', color:'#4f4f4f' }}>
-            Ambas series parten en 100 al inicio del período. La separación entre las líneas representa el alpha generado.
+            Valor total del portafolio (posiciones + caja) valorizado a precio de cierre diario. Cada punto es un
+            snapshot generado por el pipeline automático.
+          </p>
+          <div className="overflow-x-auto">
+            <AreaChart
+              labels={labels}
+              values={equitySeries}
+              height={260}
+              yFormatter={(v) => usdCompact.format(v)}
+              lastFormatter={(v) => fmtUSD(v)}
+              title="Curva de equity: valor total diario del portafolio en dólares"
+            />
+          </div>
+        </Card>
+
+        {/* Comparación: retorno acumulado vs benchmark */}
+        <Card className="p-6 mb-6">
+          <div className="flex flex-wrap items-baseline justify-between gap-3 mb-2">
+            <h2 className="font-bold text-[16px]" style={{ color: '#333333' }}>Retorno acumulado vs. benchmark</h2>
+            <span className="font-mono text-[11px] font-bold uppercase tracking-[0.08em]" style={{ color:'#4f4f4f' }}>
+              inception 02-ene-2026
+            </span>
+          </div>
+          <p className="leading-[1.5] mb-4" style={{ fontSize:'13px', color:'#4f4f4f' }}>
+            Retorno acumulado del portafolio frente al benchmark IPSA (proxy ECH) desde el inicio del período.
+            La separación entre las líneas representa el alpha generado por la estrategia.
           </p>
           <div className="overflow-x-auto">
             <LineChartCompare
@@ -71,8 +92,8 @@ export default function PortalGanancias() {
                 { label: 'Benchmark IPSA', color: '#E37200', values: benchmarkSeries },
               ]}
               height={240}
-              yFormatter={(v) => v.toFixed(1)}
-              title="Comparación Portafolio vs Benchmark IPSA"
+              yFormatter={(v) => `${v.toFixed(1)}%`}
+              title="Retorno acumulado del portafolio comparado con el benchmark IPSA"
             />
           </div>
         </Card>
